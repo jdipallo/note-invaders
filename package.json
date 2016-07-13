@@ -1,0 +1,32 @@
+{
+  "name": "note-invaders",
+  "version": "1.0.0",
+  "description": "Final Project for RefactorU - a music/note learning interactive game ",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Note",
+    "Invaders",
+    "P5.js",
+    "MEAN",
+    "Stack",
+    "Mongo",
+    "Mongoose",
+    "Express",
+    "Node",
+    "Angular",
+    "HTML5",
+    "CSS"
+  ],
+  "author": "Jeff DiPallo",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-session": "^1.14.0",
+    "mongoose": "^4.5.4",
+    "morgan": "^1.7.0"
+  }
+}
