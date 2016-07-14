@@ -1,4 +1,4 @@
-function Note(name, img, x, y, speedY) {
+function Note(name, img, x, y, speedY, canvasWidth, canvasHeight, gameOverLine) {
   this.name         = name;
   this.img          = img;
   this.width        = 70;
@@ -7,15 +7,17 @@ function Note(name, img, x, y, speedY) {
   this.y            = y;
   this.speedY       = speedY;
   this.noteVelocity = 127;
+  this.canvasWidth  = canvasWidth;
+  this.canvasHeight = canvasHeight;
 };
 
-Note.prototype.show = function() {
-  imageMode(CENTER);
-  image(this.img, this.x, this.y, this.width, this.height);
+Note.prototype.show = function(p) {
+  p.imageMode(p.CENTER);
+  p.image(this.img, this.x, this.y, this.width, this.height);
 };
 
 Note.prototype.move = function() {
-  if (this.y >= (canvasHeight - gameOverLine) - this.height) {
+  if (this.y >= (this.canvasHeight - this.gameOverLine) - this.height) {
     this.y = 10;
   }
   this.y += this.speedY;

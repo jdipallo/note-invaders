@@ -1,15 +1,16 @@
-function Bullet(x, y, speedY) {
+function Bullet(x, y, speedY, bulletImg) {
   this.width = 10;
   this.height = 50;
   this.x = x;
   this.y = y;
   this.speedY = speedY;
   this.showMe = false;
+  this.bulletImg = bulletImg;
 };
 
-Bullet.prototype.show = function() {
-  imageMode(CENTER);
-  image(bulletImg, this.x, this.y, this.width, this.height);
+Bullet.prototype.show = function(p) {
+  p.imageMode(p.CENTER);
+  p.image(this.bulletImg, this.x, this.y, this.width, this.height);
 };
 
 Bullet.prototype.move = function() {
