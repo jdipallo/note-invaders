@@ -1,22 +1,60 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="noteInvaders">
+<html lang="en" ng-app="NoteInvaders">
 	<head>
 		<title>Note Invaders</title>
 	    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	 	<link rel="stylesheet" href="bower_components/Materialize/bin/materialize.css" media="screen" title="no title" charset="utf-8">
+	 	<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+	 	<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+	 	<link rel="stylesheet" type="text/css" href="bower_components/font-awesome/css/font-awesome.min.css">
 	  	<link rel="stylesheet" href="main.css" media="screen" title="no title" charset="utf-8">
 	     
 	     <!--Let browser know website is optimized for mobile-->
 	     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	</head>
 	<body>
-		<main>
-      		<img class="responsive-img" src="images/space_notes.jpg">
+		<!--Vertical Side Nav Bar -->
+		<div class="navbar navbar-fixed-left">
+		  <div>
+		  	<a href="#"><img class="img-responsive logo" src="images/logo.png"></a>
+		  </div>
+		  <ul class="nav navbar-nav">
+		      <li><a href="#home"><i class="fa fa-home"></i><span> Home </span></a></li>
+		   	  <li><a href="#rules"><i class="fa fa-info-circle"></i><span> Rules</span></a></li>
+		   	  <li><a href="#contact"><i class="fa fa-envelope"></i><span> Contact </span></a></li>
+		   	  <li><a href="#heart"><i class="fa fa-heart"></i><span> Love</span></a></li>
+		   	  <li><a href="#work"><i class="fa fa-briefcase"></i><span> Work</span></a></li>
+		  	</ul>
+		</div> 
+		<!-- End Vertial Side Nav Bar -->
+
+		<main class="app-container">
+			<div class="container main-container">
+				<div class="row">
+					<div class="col-xs-12">
+						<ui-view></ui-view>
+					</div>
+				</div>
+			</div>
     	</main>
 
+    	<!-- including our jquery/materialize/angular/angular-ui-router js files -->
 		<script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
-		<script type="text/javascript" src="bower_components/Materialize/bin/materialize.js"></script>
+		<script type="text/javascript" src="bower_components/angular/angular.js"></script>
+		<script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+		<script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
-		 
+		<!-- The P5js library (a port from the Processing JAVA Library) and the angular-p5 library which creates
+		a custom directive for the P5 library to be inserted where we need it in our app -->
+		<script src="/bower_components/p5.js/lib/p5.js"></script>
+		<script src="js/angular-p5.js"></script>
+
+		<!-- including this app and controller js files -->
+		<script type="text/javascript" src="app.js"></script>
+		<script type="text/javascript" src="js/c_controllers/song_controller.js"></script>
+		<script type="text/javascript" src="js/c_controllers/song_factory.js"></script>
+		<script type="text/javascript" src="js/c_controllers/note_invaders_p5_factory.js"></script>
+		<script type="text/javascript" src="js/guitar_gun.js"></script>
+		<script type="text/javascript" src="js/note.js"></script>
+		<script type="text/javascript" src="js/bullet.js"></script>
 	</body>
 </html>
