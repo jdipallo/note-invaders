@@ -4,8 +4,8 @@
 // inject the modules which really are just our controllers for note invaders
 (function () {
 	angular.module('NoteInvaders', ['ui.router',
-							    	'SongCtrlModule', 
-							    	'SongFactoryModule'])
+							    	'homeCtrlModule', 
+							    	'homeFactoryModule'])
 			.config(routerConfig)
 
 	routerConfig.$inject = ['$stateProvider', '$urlRouterProvider']
@@ -15,7 +15,7 @@
 			.state('home', {
 				url: 		 '/',
 				templateUrl: 'partials/home.html',
-				controller:  'songController as songCtrl'
+				controller:  'homeController as homeCtrl'
 			})
 
 		$urlRouterProvider.otherwise('/')

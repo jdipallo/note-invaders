@@ -1,26 +1,26 @@
 (function() {
-	angular.module('SongCtrlModule', ['angular-p5'])
-		.controller('songController', songController)
+	angular.module('homeCtrlModule', ['angular-p5'])
+		.controller('homeController', homeController)
 		.factory('noteInvadersP5', noteInvadersP5)
 
-	songController.$inject = ['songFactory']
+	homeController.$inject = ['homeFactory']
 	noteInvadersP5.$inject = ['p5']
 
-	function songController(songFactory) {
-		songCtrl = this;
+	function homeController(songFactory) {
+		homeCtrl = this;
 
-		songCtrl.title = "Song Controller!"
+		homeCtrl.title = "Home Controller!"
 		
-		songCtrl.getMelody = function() {
+		homeCtrl.getMelody = function() {
 			return ['F4', 'E3', 'D4', 'B3', 'F4', 'E3', 'F4']
 		}
 
-		songCtrl.getAllSongs = function() {
-			songFactory.getSongs()
-				.then(function(response) {
-					songCtrl.songs = response.data
-				})
-		}
+		// homeCtrl.login = function() {
+		// 	homeFactory.login()
+		// 		.then(function(response) {
+		// 			homeCtrl.user = response.data
+		// 		})
+		// }
 	}
 
 	// for now, we are creating our factory here. but, we will move this out
@@ -166,7 +166,7 @@
 			    xPosition += 130;
 			  }
 			}
-
+			
 			function loadBullet() {
 			  bullets.push(new Bullet(guitarGun.x  + 2, guitarGun.y - guitarGun.height + 50, 10, bulletImg))
 			}
