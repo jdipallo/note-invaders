@@ -2,9 +2,9 @@
 	angular.module('homeCtrlModule', [])
 		.controller('homeController', homeController)
 
-	homeController.$inject = ['homeFactory']
+	homeController.$inject = ['homeFactory', '$state']
 
-	function homeController(homeFactory) {
+	function homeController(homeFactory, state) {
 		homeCtrl = this;
 		homeCtrl.chooseSong     = false;
 		homeCtrl.selectedSong   = null;
@@ -26,6 +26,10 @@
 					homeCtrl.popMelodiesDD();
 					// need to extract songs and their respective melodies here
 				})
+		}
+
+		homeCtrl.playGame = function() {
+			state.go('playgame', homeCtrl.selectedMelody)
 		}
 	}
 })()

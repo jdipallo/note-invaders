@@ -3,13 +3,18 @@
 		.controller('gameController', gameController)
 		.factory('noteInvadersP5', noteInvadersP5)
 
-	gameController.$inject = ['gameFactory']
+	gameController.$inject = ['gameFactory', '$state','$stateParams']
 	noteInvadersP5.$inject = ['p5']
 
-	function gameController(gameFactory) {
+	function gameController(gameFactory, state, stateParams) {
 		gameCtrl = this;
+		gameCtrl.melody = stateParams;
 
-		gameCtrl.title = "Home Controller!"		
+		console.log("In gameController: stateParams:", gameCtrl.melody)	
+
+		gameCtrl.getMelody = function() {
+			return gameCtrl.melody;
+		}	
 	}
 
 	// for now, we are creating our factory here. but, we will move this out
@@ -26,7 +31,8 @@
 			var noteImages;
 
 			// get the melody from the controller
-			var shuffledMelody = melody = gameCtrl.getMelody();
+			var melody = ['C3', 'E3'];
+			var shuffledMelody = melody;
 			var melodyOfNotes = [];
 			var bullets = [];
 
@@ -80,7 +86,7 @@
 			}
 
 			p.draw = function() {
-			  p.background(bg); 
+			  p.background(bg);
 			  // p.background('#303133');
 			  
 			  // show our guitar gun

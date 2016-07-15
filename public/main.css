@@ -95,7 +95,11 @@ main {
 	-webkit-animation-delay: 1s;
 }
 
-.play-button {
+.ni-labels {
+	font-size: 18px;
+}
+
+.choose-song-button {
 	background-color: #EF1D20;
 	color: black;
     box-shadow: 1px 1px 1px 1px;
@@ -107,9 +111,9 @@ main {
     box-shadow: 1px 1px 1px 1px black;
 }
 
-.play-login-reg-buttons {
+.ni-buttons {
 	text-align: center;
-	padding-top: 20px;
+	padding-top: 30px;
 }
 
 .songs-melodies-dd {
@@ -117,4 +121,10 @@ main {
     padding-left: 5%;
     color: white;
     font-size: 14px;
+}
+
+.play-game-button {
+	background-color: #9833BA;
+	color: black;
+    box-shadow: 1px 1px 1px 1px;
 }
