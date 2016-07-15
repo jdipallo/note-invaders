@@ -2,9 +2,8 @@ var Song = require('../models/song_model')
 
 var songController = {
 	getAll: function(req, res) {
-		Song.find({})
-			.populate('melodies')
-			.exec(function(error, songs) {
+		// console.log("dude, you are here! in getAll() in the songController")
+		Song.find({}, function(error, songs) {
 				if (error) {
 					console.error('ERROR: Retrieving Songs from MongoDB', error)
 				} else {

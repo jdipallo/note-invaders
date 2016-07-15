@@ -2,7 +2,6 @@
 <html lang="en" ng-app="NoteInvaders">
 	<head>
 		<title>Note Invaders</title>
-	    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	 	<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
 	 	<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
 	 	<link rel="stylesheet" type="text/css" href="bower_components/font-awesome/css/font-awesome.min.css">
@@ -16,10 +15,10 @@
 		<!--Vertical Side Nav Bar -->
 		<div class="navbar navbar-fixed-left">
 		  <div>
-		  	<a href="#"><img class="img-responsive logo" src="images/logo.png"></a>
+		  	<a ui-sref="home"><img class="img-responsive logo" src="images/logo.png"></a>
 		  </div>
 		  <ul class="nav navbar-nav">
-		      <li><a href="#home"><i class="fa fa-home"></i><span> Home </span></a></li>
+		      <li><a ui-sref="home"><i class="fa fa-home"></i><span> Home </span></a></li>
 		   	  <li><a href="#rules"><i class="fa fa-info-circle"></i><span> Rules</span></a></li>
 		   	  <li><a href="#contact"><i class="fa fa-envelope"></i><span> Contact </span></a></li>
 		   	  <li><a href="#heart"><i class="fa fa-heart"></i><span> Love</span></a></li>
@@ -53,6 +52,8 @@
 		<script type="text/javascript" src="app.js"></script>
 		<script type="text/javascript" src="js/c_controllers/home_controller.js"></script>
 		<script type="text/javascript" src="js/c_controllers/home_factory.js"></script>
+		<script type="text/javascript" src="js/c_controllers/game_controller.js"></script>
+		<script type="text/javascript" src="js/c_controllers/game_factory.js"></script>
 		<script type="text/javascript" src="js/c_controllers/note_invaders_p5_factory.js"></script>
 		<script type="text/javascript" src="js/guitar_gun.js"></script>
 		<script type="text/javascript" src="js/note.js"></script>

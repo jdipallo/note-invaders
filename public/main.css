@@ -111,3 +111,10 @@ main {
 	text-align: center;
 	padding-top: 20px;
 }
+
+.songs-melodies-dd {
+	padding-top: 10%;
+    padding-left: 5%;
+    color: white;
+    font-size: 14px;
+}

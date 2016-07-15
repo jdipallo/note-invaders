@@ -1,10 +1,10 @@
 var mongoose = require('mongoose')
 
 var SongSchema = mongoose.Schema({
-	name: String,
-	melodies: [{
-		type: mongoose.Schema.ObjectId,
-		ref: 'Melody'
+	name: { type: String, required: true, unique: true },
+	melodies: [{ 
+		name: String,
+		melody: [String]
 	}]
 })
 

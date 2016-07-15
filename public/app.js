@@ -3,9 +3,8 @@
 // we are injecting the dependency of ui-router (for partials - SPA)
 // inject the modules which really are just our controllers for note invaders
 (function () {
-	angular.module('NoteInvaders', ['ui.router',
-							    	'homeCtrlModule', 
-							    	'homeFactoryModule'])
+	angular.module('NoteInvaders', ['ui.router', 'homeCtrlModule', 'homeFactoryModule',
+									'gameCtrlModule','gameFactoryModule'])
 			.config(routerConfig)
 
 	routerConfig.$inject = ['$stateProvider', '$urlRouterProvider']
@@ -16,6 +15,11 @@
 				url: 		 '/',
 				templateUrl: 'partials/home.html',
 				controller:  'homeController as homeCtrl'
+			})
+			.state('playgame', {
+				url:  		 '/playgame',
+				templateUrl: 'partials/play_game.html',
+				controller:  'gameController as gameCtrl'
 			})
 
 		$urlRouterProvider.otherwise('/')

@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<img class="img-responsive animated fadeInDown logo2" src="images/note_invaders_logo.png"/>
-			<div class="animated fadeIn about-this">
+			<div ng-hide="homeCtrl.chooseSong" class="animated fadeIn about-this">
 				<p> Explain the GameExplain the GameExplain the GameExplain the GameExplain the Game
 					Explain the GameExplain the GameExplain the GameExplain the GameExplain the Game
 				    Explain the GameExplain the GameExplain the GameExplain the GameExplain the Game
@@ -10,12 +10,39 @@
 			<div>
 		</div>
 	</div>
-	<div class="row play-login-reg-buttons">
+
+	<div ng-show="homeCtrl.chooseSong" class="row">
+      	<div class="col-xs-12 col-md-6 songs-melodies-dd">
+      		<label for="songsLabel">Select Song</label>
+      		<select id="songsLabel"
+      				class="form-control"
+      				ng-model="homeCtrl.selectedSong" 
+      				ng-options="song.name for song in homeCtrl.songs"
+      				ng-change="homeCtrl.popMelodiesDD()">
+      				</select>
+      	</div>
+
+      	<div ng-show="homeCtrl.selectedSong" class="col-xs-12 col-md-6 songs-melodies-dd">
+      		<label for="melodyLabel">Select Melody</label>
+      		<select id="melodyLabel"
+      		     	class="form-control"
+      				ng-model="homeCtrl.selectedMelody" 
+      				ng-options="melody.name for melody in homeCtrl.selectedSong.melodies">
+      		</select>
+		</div>
+	</div>
+
+	<div class="row">
+	
+	</div>
+	
+
+	<div ng-hide="homeCtrl.chooseSong" class="row play-login-reg-buttons">
 		<div class="col-xs-12">
-			<button class="btn btn-lg play-button">Play</button>
+			<a><button class="btn btn-lg play-button" ng-click="homeCtrl.getAllSongs()">Play</button></a>
 		</div>	
 	</div>
-	<div class="row play-login-reg-buttons">
+	<div ng-hide="homeCtrl.chooseSong" class="row play-login-reg-buttons">
 		<div class="col-xs-12 col-md-6">
 			<button class="btn btn-lg login-reg-buttons">Login</button>
 		</div>
