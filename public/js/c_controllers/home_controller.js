@@ -13,7 +13,6 @@
 		homeCtrl.popMelodiesDD = function() {
 			homeCtrl.selectedMelody = homeCtrl.selectedSong.melodies[0];
 			console.log(homeCtrl.selectedMelody.melody)
-
 		}
 
 		homeCtrl.getAllSongs = function() {
@@ -24,12 +23,11 @@
 					homeCtrl.songs = returnData.data;
 					homeCtrl.selectedSong = homeCtrl.songs[0];
 					homeCtrl.popMelodiesDD();
-					// need to extract songs and their respective melodies here
 				})
 		}
 
 		homeCtrl.playGame = function() {
-			state.go('playgame', homeCtrl.selectedMelody)
+			state.go('playgame')
 		}
 	}
 })()

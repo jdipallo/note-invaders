@@ -8,8 +8,10 @@
 	// to a seperate file for the factory and inject it here.
 	function noteInvadersP5(p5) {
 		return function(p) {
-			var canvasWidth   = 750;
-			var canvasHeight  = 575;
+			var songName 		= homeCtrl.selectedSong.name;
+			var melodyName 		= homeCtrl.selectedMelody.name;
+			var canvasWidth   	= 750;
+			var canvasHeight  	= 575;
 			var bottomOfDrawingArea;
 
 			var guitarGun;
@@ -21,14 +23,19 @@
 			var melody = ['B3', 'E3', 'G3', 'D4'];
 			var noteToMatchIndex = 0;
 
-			// var shuffledMelody = ['G2', 'A2', 'B2', 'C3', 'D3', 'E3','F3',
+			// var notePoolShuffled = ['G2', 'A2', 'B2', 'C3', 'D3', 'E3','F3',
 			// 					  'G3', 'A3', 'B3', 'C4', 'D4', 'E4','F4',
 			// 					  'G4'];
-			var shuffledMelody = ['D4', 'G3', 'B3', 'E3', 'F4'];
+			var notePoolShuffled = ['D4', 'G3', 'G3', 'E3', 'F4'];
 			var gameNotes = [];
 			var bullets = [];
 
-			var gameOver = false;
+			var gameOver 			= false;
+			var score    			= 0;
+			var correctNotePts 		= 100;
+			var wrongNotePts 		= -100;
+			var noteGotByYaPoints 	= -25;
+			var chances				= 3;
 
 			// add a shuffle() method to the Array object to shuffle
 			// the array, gameNotes, to randomize the falling of them
@@ -42,6 +49,11 @@
 			     this[j] = temp;
 			  }
 			  return this;
+			}
+
+			function setSongMelodyTitle(){
+				var songMelodyNameDOM = p.select('#song-melody-name');
+				songMelodyNameDOM.html(songName + "-" + melodyName)
 			}
 
 			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -73,6 +85,7 @@
 			  p.createCanvas(canvasWidth, canvasHeight);
 			  loadGameMelody();
 			  setTargetNoteUI('TARGET NOTE: ', melody[noteToMatchIndex]);
+			  setSongMelodyTitle();
 			}
 
 			p.draw = function() {
@@ -143,12 +156,12 @@
 			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 			function hitWrongTargetNote(noteIndex) {
 				var targetNoteDOM = p.select('#target-note');
-				var i = p.floor(p.random(shuffledMelody.length));
+				var i = p.floor(p.random(notePoolShuffled.length));
 
 				targetNoteDOM.attribute('class', 'wrong-note animated shake');
-				gameNotes.splice(noteIndex, 1, new Note(shuffledMelody[i], 
-				      		   						    noteImages[shuffledMelody[i]].image, 
-				      		   				 		    noteImages[shuffledMelody[i]].srcFile,
+				gameNotes.splice(noteIndex, 1, new Note(notePoolShuffled[i], 
+				      		   						    noteImages[notePoolShuffled[i]].image, 
+				      		   				 		    noteImages[notePoolShuffled[i]].srcFile,
 				      		   				 		    gameNotes[noteIndex].x, 10, 
 										      		    .1 * p.random(1, 7),
 										      		    canvasWidth,
@@ -168,10 +181,7 @@
 					// add this target's image to show the user what their progress is
 				    var melodyProgressDOM = p.select('#melody-progress');
 				    var leftPosition = 75 * (noteToMatchIndex);
-				    // melodyProgressDOM.html(melodyProgressDOM.elt.innerHTML + "\n" 
-				    // 		+ "<img style='left:" + leftPosition + "px;'" 
-				    // 		+ "class='animated bounceInRight melody-progress-image img-responsive' src='" 
-				    // 		+ noteHit.imgFile + "'>");
+				   
 				     melodyProgressDOM.html(melodyProgressDOM.elt.innerHTML + "\n" 
 				    		+ "<div><img style='left:" + leftPosition + "px;'" 
 				    		+ "class='animated bounceInRight melody-progress-image img-responsive' src='" 
@@ -197,21 +207,39 @@
 			}
 
 			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
+ 		    // lets shuffle our melody to have the notes come down in a random pattern
+			// we still the melody array of the original melody to compare against when user 
+			// completes/wins the game
 			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 			function loadGameMelody() {
-			  // lets shuffle our melody to have the notes come down in a random pattern
-			  // we still the melody array of the original melody to compare against when user 
-			  // completes/wins the game
-			  shuffledMelody.shuffle();
-			  
+			  notePoolShuffled.shuffle();
+
+			  // if the noteToMatchIndex melody note is not part of our shuffled notes, gameNotes, 
+			  // (Note() objects are the ones painted/falling on the drawing canvas), take out
+			  // one, and add our noteToMatchIndex note to gameNotes
+			  var melodyNoteInShuffle = false;
+			  for (var i = 0; i < 5; i++) {
+			  	if (notePoolShuffled[i] === melody[noteToMatchIndex]) {
+			  		// console.log("yes, we have a", melody[noteToMatchIndex], "in", notePoolShuffled)
+			  		melodyNoteInShuffle = true;
+			  		break;
+			  	}
+			  }
+			  // randomly splice out a note from gameNotes and insert our noteToMatchIndex
+			  // from our melody - so the user can see/have the opportunity to shoot it!
+			  if (!melodyNoteInShuffle) {
+			  	// console.log("we dot NOT have a", melody[noteToMatchIndex], "in", notePoolShuffled)
+		  		var randomIndex = p.floor(p.random(0, notePoolShuffled.length))
+		  		var splicedNote = notePoolShuffled.splice(randomIndex, 1, melody[noteToMatchIndex])
+			  }
+
 			  var xPosition = 95;
 
-			  for (var i = 0; i < shuffledMelody.length; i++) {
+			  for (var i = 0; i < 5; i++) {
 			    gameNotes.push(
-			      new Note(shuffledMelody[i], 
-			      		   noteImages[shuffledMelody[i]].image, 
-			      		   noteImages[shuffledMelody[i]].srcFile,
+			      new Note(notePoolShuffled[i], 
+			      		   noteImages[notePoolShuffled[i]].image, 
+			      		   noteImages[notePoolShuffled[i]].srcFile,
 			      		   xPosition, 10, 
 			      		   .1 * p.random(1, 7),
 			      		   canvasWidth,
@@ -230,16 +258,19 @@
 			  bullets.push(new Bullet(guitarGun.x  + 2, guitarGun.y - guitarGun.height + 50, 10, bulletImg))
 			}	
 
+			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+			// jQuery listener for the end of any animate.css event
+			// Style our target note text header after a wrong/correct note
+			// if game over, leave our style of correct note (green text) 
+			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 			$('#target-note').bind
 				('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 				var targetNoteDOM = p.select('#target-note');
 				
 				if (!gameOver) {
 					// set our TARGET NOTE: header area to indicate to the user the next target note
-						setTargetNoteUI('TARGET NOTE: ', melody[noteToMatchIndex])
-
+					setTargetNoteUI('TARGET NOTE: ', melody[noteToMatchIndex])
 					targetNoteDOM.attribute('class', 'default-target-note-msg animated fadeIn');
-
 				}
 				
 			});
