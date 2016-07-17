@@ -151,6 +151,16 @@ main {
 
 .wrong-note {
 	color: red;
+	-webkit-animation-duration: 1.5s;
+}
+
+.correct-note {
+	color: green;
+	-webkit-animation-duration: 1.5s;
+}
+
+.default-target-note-msg {
+	color: white;
 }
 
 .game-info-area, .progress-so-far {
