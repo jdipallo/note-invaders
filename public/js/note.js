@@ -1,14 +1,16 @@
-function Note(name, img, x, y, speedY, canvasWidth, canvasHeight, gameOverLine) {
+function Note(name, img, imgFile, x, y, speedY, canvasWidth, canvasHeight, bottomOfDrawingArea) {
   this.name         = name;
   this.img          = img;
-  this.width        = 70;
-  this.height       = 85;
+  this.imgFile      = imgFile;
+  this.width        = 90;
+  this.height       = 99;
   this.x            = x;
   this.y            = y;
   this.speedY       = speedY;
   this.noteVelocity = 127;
   this.canvasWidth  = canvasWidth;
   this.canvasHeight = canvasHeight;
+  this.bottomOfDrawingArea = bottomOfDrawingArea + 3;
 };
 
 Note.prototype.show = function(p) {
@@ -17,10 +19,16 @@ Note.prototype.show = function(p) {
 };
 
 Note.prototype.move = function() {
-  if (this.y >= (this.canvasHeight - this.gameOverLine) - this.height) {
+  if ((this.y + this.height/2) >= this.bottomOfDrawingArea) {
     this.y = 10;
   }
   this.y += this.speedY;
+}
+
+// lets move our correct "target" note to the bottom where the progress
+// of melody notes will land based on note position in the melody
+Note.prototype.moveToMelodyProgress = function(position) {
+
 }
 
 // determine if the note that was hit is the correct note that

@@ -1,4 +1,26 @@
 <!-- Popup a Modal which queries the DB for all songs/melodies in the DB and prompts
 user to select a melody. Then we can load our P5 game -->
+<div class="container game-canvas">
+	<div class="row instructions">
+		<div class="col-xs-12 col-md-6">
+			<span id="song-melody-name" class="small-font"><em>Twinkle Twinkle-melody1</em></span>
 
-<p5 sketch="noteInvadersP5">
+		</div>
+		<div class="col-xs-12 col-md-6">
+			<span class="small-font"><em>left/arrow to move - space bar to shoot</em></span>
+
+		</div>
+	</div>
+	<div class="row game-info-area">
+		<div id="target-note" class="col-xs-12 animated fadeIn">
+		</div>
+	</div>
+	<div class="row game-drawing-area">
+		<div class="col-xs-12">
+			<p5 sketch="noteInvadersP5"></p5>
+		</div>
+		<div id="melody-progress" class="col-xs-12 progress-so-far">
+
+		</div>
+	</div>
+</div>
