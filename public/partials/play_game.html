@@ -10,7 +10,10 @@ user to select a melody. Then we can load our P5 game -->
 		</div>
 	</div>
 	<div class="row game-info-area">
-		<div id="target-note" class="col-xs-12 animated fadeIn">
+		<div id="target-note" class="col-xs-8 target-note-msg animated fadeIn">
+		</div>
+		<div id="score-title" class="col-xs-4">
+			{{ gameCtrl.score }}
 		</div>
 	</div>
 	<div class="row game-drawing-area">
@@ -18,7 +21,6 @@ user to select a melody. Then we can load our P5 game -->
 			<p5 sketch="noteInvadersP5"></p5>
 		</div>
 		<div id="melody-progress" class="col-xs-12 progress-so-far">
-
 		</div>
 	</div>
 </div>

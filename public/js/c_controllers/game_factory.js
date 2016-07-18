@@ -11,7 +11,7 @@
 			var songName 		= homeCtrl.selectedSong.name;
 			var melodyName 		= homeCtrl.selectedMelody.name;
 			var canvasWidth   	= 750;
-			var canvasHeight  	= 575;
+			var canvasHeight  	= 550;
 			var bottomOfDrawingArea;
 
 			var guitarGun;
@@ -34,8 +34,14 @@
 			var score    			= 0;
 			var correctNotePts 		= 100;
 			var wrongNotePts 		= -100;
-			var noteGotByYaPoints 	= -25;
+			var theNoteGotByYaPts 	= -25;
 			var chances				= 3;
+			var rounds				= 0;
+
+			// sound effects and piano samples
+			var laser;
+			var noteSounds;
+			var droneBackground;
 
 			// add a shuffle() method to the Array object to shuffle
 			// the array, gameNotes, to randomize the falling of them
@@ -54,6 +60,16 @@
 			function setSongMelodyTitle(){
 				var songMelodyNameDOM = p.select('#song-melody-name');
 				songMelodyNameDOM.html(songName + "-" + melodyName)
+			}
+
+			function setTargetNoteUI(msg, noteName) {
+				var targetNoteDOM = p.select('#target-note');
+				targetNoteDOM.html(msg + noteName)
+			}
+			function setScoreTitle() {
+				var scoreTitleDOM = p.select('#score-title');
+				console.log("in setScoreTitle: score ", score )
+				scoreTitleDOM.html("Score: " + score);
 			}
 
 			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -78,12 +94,16 @@
 				                'F4': { image: p.loadImage(qNf4), srcFile: qNf4}
 				                };
 			  guitarGun     	   = new GuitarGun(canvasWidth, canvasHeight, flyingVImg);
+
+			  laser 	   = p.loadSound('../sounds/laser_5.mp3');
+
 			  bottomOfDrawingArea  = canvasHeight - guitarGun.height;
 			}
 
 		    p.setup = function() {
 			  p.createCanvas(canvasWidth, canvasHeight);
 			  loadGameMelody();
+			  setScoreTitle();
 			  setTargetNoteUI('TARGET NOTE: ', melody[noteToMatchIndex]);
 			  setSongMelodyTitle();
 			}
@@ -147,6 +167,7 @@
 			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 		 	p.keyPressed = function() {
 			  if (p.key === ' ') {
+			  	laser.play();
 			    loadBullet();
 			  }  
 			}
@@ -157,6 +178,12 @@
 			function hitWrongTargetNote(noteIndex) {
 				var targetNoteDOM = p.select('#target-note');
 				var i = p.floor(p.random(notePoolShuffled.length));
+
+				// decrement score, increment round - user gets 3 rounds before we go to the next note
+				// in the melody
+				score += wrongNotePts;
+				setScoreTitle();
+				rounds++;
 
 				targetNoteDOM.attribute('class', 'wrong-note animated shake');
 				gameNotes.splice(noteIndex, 1, new Note(notePoolShuffled[i], 
@@ -175,7 +202,11 @@
 			function hitTargetNote(noteHit) {
 					// set target note info area green
 					var targetNoteDOM = p.select('#target-note');
-					targetNoteDOM.attribute('class', 'correct-note animated flash pulse');
+					targetNoteDOM.attribute('class', 'default-target-note-msg col-xs-8 correct-note animated flash pulse');
+
+					// lets give the user some points!
+					score += correctNotePts;
+					setScoreTitle();
 
 					// grab our DOM element ID (melody-progress - bootstrap column) to
 					// add this target's image to show the user what their progress is
@@ -195,7 +226,7 @@
 					if (noteToMatchIndex === melody.length -1) {
 						gameOver = true;
 						gameNotes.splice(0);
-						setTargetNoteUI("COMPLETED! NICE JOB", '')
+						setTargetNoteUI("COMPLETED!", '')
 					}
 					else {
 						// we are now on the next note in the melody
@@ -212,48 +243,46 @@
 			// completes/wins the game
 			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 			function loadGameMelody() {
-			  notePoolShuffled.shuffle();
+				// reset our rounds
+				rounds =0;
 
-			  // if the noteToMatchIndex melody note is not part of our shuffled notes, gameNotes, 
-			  // (Note() objects are the ones painted/falling on the drawing canvas), take out
-			  // one, and add our noteToMatchIndex note to gameNotes
-			  var melodyNoteInShuffle = false;
-			  for (var i = 0; i < 5; i++) {
-			  	if (notePoolShuffled[i] === melody[noteToMatchIndex]) {
-			  		// console.log("yes, we have a", melody[noteToMatchIndex], "in", notePoolShuffled)
-			  		melodyNoteInShuffle = true;
-			  		break;
+				notePoolShuffled.shuffle();
+
+			  	// if the noteToMatchIndex melody note is not part of our shuffled notes, gameNotes, 
+			  	// (Note() objects are the ones painted/falling on the drawing canvas), take out
+				// one, and add our noteToMatchIndex note to gameNotes
+			  	var melodyNoteInShuffle = false;
+			  	for (var i = 0; i < 5; i++) {
+			  		if (notePoolShuffled[i] === melody[noteToMatchIndex]) {
+			  			// console.log("yes, we have a", melody[noteToMatchIndex], "in", notePoolShuffled)
+			  			melodyNoteInShuffle = true;
+			  			break;
+			  		}
 			  	}
-			  }
-			  // randomly splice out a note from gameNotes and insert our noteToMatchIndex
-			  // from our melody - so the user can see/have the opportunity to shoot it!
-			  if (!melodyNoteInShuffle) {
-			  	// console.log("we dot NOT have a", melody[noteToMatchIndex], "in", notePoolShuffled)
-		  		var randomIndex = p.floor(p.random(0, notePoolShuffled.length))
-		  		var splicedNote = notePoolShuffled.splice(randomIndex, 1, melody[noteToMatchIndex])
-			  }
+			  	// randomly splice out a note from gameNotes and insert our noteToMatchIndex
+			  	// from our melody - so the user can see/have the opportunity to shoot it!
+			  	if (!melodyNoteInShuffle) {
+			  		// console.log("we dot NOT have a", melody[noteToMatchIndex], "in", notePoolShuffled)
+		  			var randomIndex = p.floor(p.random(0, notePoolShuffled.length))
+		  			var splicedNote = notePoolShuffled.splice(randomIndex, 1, melody[noteToMatchIndex])
+			  	}
 
-			  var xPosition = 95;
+			  	var xPosition = 95;
 
-			  for (var i = 0; i < 5; i++) {
-			    gameNotes.push(
-			      new Note(notePoolShuffled[i], 
-			      		   noteImages[notePoolShuffled[i]].image, 
-			      		   noteImages[notePoolShuffled[i]].srcFile,
-			      		   xPosition, 10, 
-			      		   .1 * p.random(1, 7),
-			      		   canvasWidth,
-			      		   canvasHeight,
-			      		   bottomOfDrawingArea));
-			    xPosition += 140;
-			  }
+			  	for (var i = 0; i < 5; i++) {
+			   	 gameNotes.push(
+			    	  new Note(notePoolShuffled[i], 
+			      			   noteImages[notePoolShuffled[i]].image, 
+			      			   noteImages[notePoolShuffled[i]].srcFile,
+			      		 	  xPosition, 10, 
+			    	  		   .1 * p.random(1, 7),
+			      			   canvasWidth,
+			      			   canvasHeight,
+			      			   bottomOfDrawingArea));
+			    	xPosition += 140;
+			  	}
 			}
 		
-			function setTargetNoteUI(msg, noteName) {
-				var targetNoteDOM = p.select('#target-note');
-				targetNoteDOM.html(msg + noteName)
-			}
-
 			function loadBullet() {
 			  bullets.push(new Bullet(guitarGun.x  + 2, guitarGun.y - guitarGun.height + 50, 10, bulletImg))
 			}	
@@ -270,9 +299,12 @@
 				if (!gameOver) {
 					// set our TARGET NOTE: header area to indicate to the user the next target note
 					setTargetNoteUI('TARGET NOTE: ', melody[noteToMatchIndex])
-					targetNoteDOM.attribute('class', 'default-target-note-msg animated fadeIn');
+					// targetNoteDOM.attribute('class', 'default-target-note-msg col-xs-8 animated fadeIn');
+					targetNoteDOM.class('default-target-note-msg col-xs-8 animated fadeIn');
 				}
-				
+				else {
+					setTargetNoteUI('NICE JOB!! YOUR SCORE WAS: ', score)				
+				}
 			});
 
 		}	// end of return function(p)
