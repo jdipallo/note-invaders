@@ -185,7 +185,7 @@
 				setScoreTitle();
 				rounds++;
 
-				targetNoteDOM.attribute('class', 'wrong-note animated shake');
+				targetNoteDOM.attribute('class', 'wrong-note wrong-note animated shake col-xs-8');
 				gameNotes.splice(noteIndex, 1, new Note(notePoolShuffled[i], 
 				      		   						    noteImages[notePoolShuffled[i]].image, 
 				      		   				 		    noteImages[notePoolShuffled[i]].srcFile,
@@ -202,7 +202,7 @@
 			function hitTargetNote(noteHit) {
 					// set target note info area green
 					var targetNoteDOM = p.select('#target-note');
-					targetNoteDOM.attribute('class', 'default-target-note-msg col-xs-8 correct-note animated flash pulse');
+					targetNoteDOM.attribute('class', 'correct-note animated flash pulse col-xs-8');
 
 					// lets give the user some points!
 					score += correctNotePts;
