@@ -8,25 +8,26 @@
 	// to a seperate file for the factory and inject it here.
 	function noteInvadersP5(p5) {
 		return function(p) {
-			var songName 		= homeCtrl.selectedSong.name;
-			var melodyName 		= homeCtrl.selectedMelody.name;
+			var songName 		= gameCtrl.selectedSongName;
+			var melodyName      = gameCtrl.selectedMelodyName;
+			var melody = ['B3', 'E3', 'G3', 'D4'];
 			var canvasWidth   	= 750;
 			var canvasHeight  	= 550;
 			var bottomOfDrawingArea;
+			var progressNotesPosition = 32;
 
 			var guitarGun;
 			var bulletImg;
 			var flyingVImg;
 			var noteImages;
 
-			// get the melody from the controller
-			var melody = ['B3', 'E3', 'G3', 'D4'];
 			var noteToMatchIndex = 0;
 
 			// var notePoolShuffled = ['G2', 'A2', 'B2', 'C3', 'D3', 'E3','F3',
 			// 					  'G3', 'A3', 'B3', 'C4', 'D4', 'E4','F4',
 			// 					  'G4'];
 			var notePoolShuffled = ['D4', 'G3', 'G3', 'E3', 'F4'];
+			
 			var gameNotes = [];
 			var bullets = [];
 
@@ -42,6 +43,9 @@
 			var laser;
 			var noteSounds;
 			var droneBackground;
+			var wrongNoteBuzz;
+			var crowdClapping;
+
 
 			// add a shuffle() method to the Array object to shuffle
 			// the array, gameNotes, to randomize the falling of them
@@ -68,12 +72,29 @@
 			}
 			function setScoreTitle() {
 				var scoreTitleDOM = p.select('#score-title');
-				console.log("in setScoreTitle: score ", score )
 				scoreTitleDOM.html("Score: " + score);
 			}
 
+			function playMelody() {
+				if (noteSounds != null) {
+					for (var i = 0; i < melody.length; i++) {
+						(function(i) { 
+								setTimeout(function() {
+										noteSounds[melody[i]].play()
+								}, i * 500)
+						})(i)
+					}
+				}
+			}
+			// lets callback to our gameController, passing in this function so 
+			// we can call it 
+			gameCtrl.setMelodyFn(playMelody)
+
+			
 			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-			// pre-load (syncronously) all our images
+			// pre-load (syncronously) all our images - we 
+			// can be sure by the time we hit setup/draw
+			// these resources are in fact loaded.
 			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 			p.preload = function() {
 				bg            = p.loadImage('../images/stars.png');
@@ -92,84 +113,119 @@
 				                'B3': { image: p.loadImage(qNb3), srcFile: qNb3},
 				                'D4': { image: p.loadImage(qNd4), srcFile: qNd4},
 				                'F4': { image: p.loadImage(qNf4), srcFile: qNf4}
-				                };
-			  guitarGun     	   = new GuitarGun(canvasWidth, canvasHeight, flyingVImg);
+				             };
+				guitarGun     	   = new GuitarGun(canvasWidth, canvasHeight, flyingVImg);
 
-			  laser 	   = p.loadSound('../sounds/laser_5.mp3');
+				laser 	   		   = p.loadSound('../sounds/laser_5.mp3');
+				wrongNoteBuzz 	   = p.loadSound('../sounds/wrong_buzz.mp3');
+				crowdClapping	   = p.loadSound('../sounds/crowd_clapping.mp3');
+				droneBackground    = p.loadSound('../sounds/pulsating_beat_busy_drone_short.mp3')
+				noteSounds = {'G2' : p.loadSound('../sounds/G2.mp3'),
+							  'A2' : p.loadSound('../sounds/A2.mp3'),
+							  'B2' : p.loadSound('../sounds/B2.mp3'),
+							  'C3' : p.loadSound('../sounds/C3.mp3'),
+							  'D3' : p.loadSound('../sounds/D3.mp3'),
+							  'E3' : p.loadSound('../sounds/E3.mp3'),
+							  'F3' : p.loadSound('../sounds/F3.mp3'),
+							  'FSHARP3' : p.loadSound('../sounds/FSHARP3.mp3'),
+							  'G3' : p.loadSound('../sounds/G3.mp3'),
+							  'A3' : p.loadSound('../sounds/A3.mp3'),
+							  'B3' : p.loadSound('../sounds/B3.mp3'),
+							  'C4' : p.loadSound('../sounds/C4.mp3'),
+							  'D4' : p.loadSound('../sounds/D4.mp3'),
+							  'E4' : p.loadSound('../sounds/E4.mp3'),
+							  'F4' : p.loadSound('../sounds/F4.mp3'),
+							  'G4' : p.loadSound('../sounds/G4.mp3'),
+				};
 
-			  bottomOfDrawingArea  = canvasHeight - guitarGun.height;
+
+				bottomOfDrawingArea  = canvasHeight - guitarGun.height;
 			}
 
+			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+			// P5 Runs this function once after preload 
+			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		    p.setup = function() {
 			  p.createCanvas(canvasWidth, canvasHeight);
+			  // droneBackground.setVolume(1);
+			  // droneBackground.loop();
 			  loadGameMelody();
 			  setScoreTitle();
 			  setTargetNoteUI('TARGET NOTE: ', melody[noteToMatchIndex]);
 			  setSongMelodyTitle();
 			}
 
+			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+			// P5 Runs this function continously in a loop - this is 
+			// how we do are animation
+			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 			p.draw = function() {
 			  p.background(bg);
-			  
-			  // show our guitar gun
-			  guitarGun.show(p);
 
-			   // show our bullets when we shoot with space bar
-			  for (var b = bullets.length - 1; b >= 0; b--) {
-			    bullets[b].show(p);
-			    bullets[b].move();
-			    
-			    // loop through our notes and see if any bullets hit one
-			    for (var j = gameNotes.length - 1; j >= 0; j--) {
-			    	if (bullets[b].hitNote(gameNotes[j])) {
-				        if (gameNotes[j].name === melody[noteToMatchIndex]) {
-					        bullets[b].markForDelete();
-				        	hitTargetNote(gameNotes[j]);
-					        break;
-				        } 
-				        else { 
-					        bullets[b].markForDelete();
-				        	hitWrongTargetNote(j)
-				        }
-			      	}
-			    }
-			    // if bullet(s) went off screen, lets mark it for deletion
-			    if (bullets[b].isOffScreen()) {
-			      bullets[b].markForDelete();
-			    }
-			  }
-			  // lets remove from our bullets array any that need deletion so they aren't
-			  // painted on the screen
-			  for (var b = bullets.length - 1; b >= 0; b--) {
-			    if (bullets[b].isMarkedForDelete()) {
-			      bullets.splice(b, 1)
-			    }
-			  }
-			  
-			// show our notes falling
-			  for (var i = 0; i < gameNotes.length; i++) {
-			    gameNotes[i].show(p);
-			    gameNotes[i].move();
-			  }
-			  
-			  // if user has left or right arrow keys pressed down and holding, 
-			  // move the guitar gun
-			  if (p.keyIsDown(p.RIGHT_ARROW)) {
-			    guitarGun.move(1);
-			  }
-			  else if (p.keyIsDown(p.LEFT_ARROW)) {
-			    guitarGun.move(-1);
-			  }
-			}
+			  if (!gameOver) {			  	
+				  // show our guitar gun
+				  guitarGun.show(p);
+
+				   // show our bullets when we shoot with space bar
+				  for (var b = bullets.length - 1; b >= 0; b--) {
+				    bullets[b].show(p);
+				    bullets[b].move();
+				    
+				    // loop through our notes and see if any bullets hit one
+				    for (var j = gameNotes.length - 1; j >= 0; j--) {
+				    	if (bullets[b].hitNote(gameNotes[j])) {
+					        if (gameNotes[j].name === melody[noteToMatchIndex]) {
+					        	noteSounds[gameNotes[j].name].play();
+						        bullets[b].markForDelete();
+					        	hitTargetNote(gameNotes[j]);
+						        break;
+					        } 
+					        else { 
+						        bullets[b].markForDelete();
+					        	hitWrongTargetNote(j)
+					        }
+				      	}
+				    }
+				    // if bullet(s) went off screen, lets mark it for deletion
+				    if (bullets[b].isOffScreen()) {
+				      bullets[b].markForDelete();
+				    }
+				  }
+				  // lets remove from our bullets array any that need deletion so they aren't
+				  // painted on the screen
+				  for (var b = bullets.length - 1; b >= 0; b--) {
+				    if (bullets[b].isMarkedForDelete()) {
+				      bullets.splice(b, 1)
+				    }
+				  }
+				  
+				// show our notes falling
+				  for (var i = 0; i < gameNotes.length; i++) {
+				    gameNotes[i].show(p);
+				    gameNotes[i].move();
+				  }
+				  
+				  // if user has left or right arrow keys pressed down and holding, 
+				  // move the guitar gun
+				  if (p.keyIsDown(p.RIGHT_ARROW)) {
+				    guitarGun.move(1);
+				  }
+				  else if (p.keyIsDown(p.LEFT_ARROW)) {
+				    guitarGun.move(-1);
+				  }
+				} 		// end of gameOver()
+			} // end of p.draw()
 
 			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 			// if user taps space bar, shoot!
 			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 		 	p.keyPressed = function() {
-			  if (p.key === ' ') {
-			  	laser.play();
-			    loadBullet();
-			  }  
+		 		if (!gameOver) {
+			  		if (p.key === ' ') {
+			  			laser.play();
+			    		loadBullet();
+			  		} 
+		  		} 
 			}
 
 			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -179,6 +235,9 @@
 				var targetNoteDOM = p.select('#target-note');
 				var i = p.floor(p.random(notePoolShuffled.length));
 
+				// play wrong note sound
+				wrongNoteBuzz.play();
+				
 				// decrement score, increment round - user gets 3 rounds before we go to the next note
 				// in the melody
 				score += wrongNotePts;
@@ -189,7 +248,7 @@
 				gameNotes.splice(noteIndex, 1, new Note(notePoolShuffled[i], 
 				      		   						    noteImages[notePoolShuffled[i]].image, 
 				      		   				 		    noteImages[notePoolShuffled[i]].srcFile,
-				      		   				 		    gameNotes[noteIndex].x, 10, 
+				      		   				 		    gameNotes[noteIndex].x, 0, 
 										      		    .1 * p.random(1, 7),
 										      		    canvasWidth,
 										      		    canvasHeight,
@@ -211,7 +270,7 @@
 					// grab our DOM element ID (melody-progress - bootstrap column) to
 					// add this target's image to show the user what their progress is
 				    var melodyProgressDOM = p.select('#melody-progress');
-				    var leftPosition = 75 * (noteToMatchIndex);
+				    var leftPosition = progressNotesPosition * (noteToMatchIndex);
 				   
 				     melodyProgressDOM.html(melodyProgressDOM.elt.innerHTML + "\n" 
 				    		+ "<div><img style='left:" + leftPosition + "px;'" 
@@ -223,9 +282,14 @@
 					gameNotes.splice(0);
 
 					// if this is the last note in the melody, game WON!!!
-					if (noteToMatchIndex === melody.length -1) {
+					if (noteToMatchIndex === melody.length - 1) {
 						gameOver = true;
+						gameCtrl.setGameOver(true);
+						// temp
+						var gameOverDOM = p.select('.game-over');
+						gameOverDOM.style('display', 'inline-block');
 						gameNotes.splice(0);
+						crowdClapping.play();
 						setTargetNoteUI("COMPLETED!", '')
 					}
 					else {
@@ -287,6 +351,11 @@
 			  bullets.push(new Bullet(guitarGun.x  + 2, guitarGun.y - guitarGun.height + 50, 10, bulletImg))
 			}	
 
+			function removeAllGraphics() {
+				bullets.splice(0);
+				guitarGun = null;
+			}
+
 			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 			// jQuery listener for the end of any animate.css event
 			// Style our target note text header after a wrong/correct note
@@ -303,7 +372,11 @@
 					targetNoteDOM.class('default-target-note-msg col-xs-8 animated fadeIn');
 				}
 				else {
-					setTargetNoteUI('NICE JOB!! YOUR SCORE WAS: ', score)				
+					setTargetNoteUI('NICE JOB!!!', '')
+					removeAllGraphics();
+
+					// droneBackground.setVolume(0, 3.0);
+					// droneBackground.stop();				
 				}
 			});
 

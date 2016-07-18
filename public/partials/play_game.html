@@ -13,13 +13,21 @@ user to select a melody. Then we can load our P5 game -->
 		<div id="target-note" class="col-xs-8 target-note-msg animated fadeIn">
 		</div>
 		<div id="score-title" class="col-xs-4">
-			{{ gameCtrl.score }}
 		</div>
 	</div>
 	<div class="row game-drawing-area">
 		<div class="col-xs-12">
 			<p5 sketch="noteInvadersP5"></p5>
 		</div>
+
+		<!-- <div ng-hide="!gameCtrl.getGameOver()" class="game-over"> -->
+		<div class="game-over">
+			<button class="btn game-over-buttons" ng-click="gameCtrl.playMelody()">Play Melody</button>
+			<button class="btn game-over-buttons" ng-click="gameCtrl.replayGame()">Replay Game</button>
+			<button ng-click="gameCtrl.goHome()" class="btn game-over-buttons">Other Song</button>
+		</div>
+
+   <!-- <div ng-click="gameCtrl.playPiano()" class="piano"></div> -->
 		<div id="melody-progress" class="col-xs-12 progress-so-far">
 		</div>
 	</div>

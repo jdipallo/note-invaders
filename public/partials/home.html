@@ -21,7 +21,6 @@
       				ng-change="homeCtrl.popMelodiesDD()">
       				</select>
       	</div>
-
       	<div ng-show="homeCtrl.selectedSong" class="col-xs-12 col-md-6 songs-melodies-dd">
       		<label for="melodyLabel" class="ni-labels">Select Melody</label>
       		<select id="melodyLabel"
@@ -32,6 +31,9 @@
 		</div>
 	</div>
 	<div ng-show="homeCtrl.selectedMelody" class="row ni-buttons animated fadeIn">
+			<!-- <div class="col-xs-12">
+			  	<p5 sketch="audio-player"></p5>
+			</div> -->
 			<div class="col-xs-12">
 				<a><button class="btn btn-lg play-game-button" ng-click="homeCtrl.playGame()">Play!</button></a>
 			</div>
