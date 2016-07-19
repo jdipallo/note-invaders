@@ -12,6 +12,19 @@
 		gameCtrl.selectedMelodyName = homeCtrl.selectedMelody.name;
 		gameCtrl.selectedMelody = homeCtrl.selectedMelody.melody;
 
+		gameCtrl.setTimerInterval = function(timerInterval) {
+			gameCtrl.timerInterval = timerInterval;
+		}
+		gameCtrl.stopTimer = function() {
+			clearInterval(gameCtrl.timerInterval);
+		}
+		gameCtrl.setMusic = function(music) {
+			gameCtrl.music = music;
+		}
+		
+		gameCtrl.stopMusic = function() {
+			gameCtrl.music.stop();
+		}
 		gameCtrl.setGameOver = function(gameOver) {
 			gameCtrl.gameOver = gameOver;
 		}

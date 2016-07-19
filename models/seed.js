@@ -24,7 +24,7 @@ melody:['C3', 'C3', 'C3', 'D3', 'E3', 'E3', 'E3', 'D3', 'C3', 'D3', 'E3', 'C3','
 
 db.songs.insert({name: "Old McDonald Had A Farm", 
 melodies: [{name: "Melody1", 
-melody:['C4','C4', 'C4', 'G3', 'A3', 'A3', 'G3', 'E4', 'E4', 'D4', 'D4', 'C4','G3','C4','C4','C4','G3','A3','A3','G3','E4', 'E4', 'D4', 'C4']
+melody:['C4','C4', 'C4', 'G3', 'A3', 'A3', 'G3', 'E4', 'E4', 'D4', 'D4', 'C4']
 }]})
 
 db.songs.update({name: "Old McDonald Had A Farm"}, 

@@ -185,14 +185,19 @@
 			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		    p.setup = function() {
 			  p.createCanvas(canvasWidth, canvasHeight);
-			  // droneBackground.setVolume(1);
-			  // droneBackground.loop();
+			  
+			  droneBackground.setVolume(0.4);
+			  droneBackground.loop();
+			  gameCtrl.setMusic(droneBackground);
+
 			  loadGameMelody();
 			  setScoreTitle();
 			  setTargetNoteUI('TARGET NOTE: ', melody[noteToMatchIndex]);
 			  setSongMelodyTitle();
+			  
 			  startTime = moment();
 			  timerInterval = setInterval(updateTimer, 1000);
+			  gameCtrl.setTimerInterval(timerInterval);
 			}
 
 			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -416,8 +421,8 @@
 					setTargetNoteUI('NICE JOB!!!', '')
 					removeAllGraphics();
 
-					// droneBackground.setVolume(0, 3.0);
-					// droneBackground.stop();				
+					droneBackground.setVolume(0, 2.0);
+					droneBackground.stop();				
 				}
 			});
 

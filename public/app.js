@@ -19,10 +19,12 @@
 			.state('playgame', {
 				url:  		 '/playgame',
 				templateUrl: 'partials/play_game.html',
-				controller:  'gameController as gameCtrl'
+				controller:  'gameController as gameCtrl',
+				onExit: 	  function () {
+				    		    gameCtrl.stopTimer();
+				    		    gameCtrl.stopMusic();
+				  			  }
 			})
-
 		$urlRouterProvider.otherwise('/')
 	}
-
 })()
