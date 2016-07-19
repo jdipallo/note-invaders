@@ -34,8 +34,11 @@
 			var correctNotePts 		= 100;
 			var wrongNotePts 		= -100;
 			var theNoteGotByYaPts 	= -25;
-			var chances				= 3;
+			var chances				= 5;
 			var rounds				= 0;
+			var timer;
+			var timerDOM;
+			var timerCounter		= 0;
 
 			// sound effects and piano samples
 			var laser;
@@ -73,6 +76,10 @@
 				scoreTitleDOM.html("Score: " + score);
 			}
 
+			// =-=---=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+			// IFFY! so that variable i can be resolved and 
+			// play our notes in succession
+			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 			function playMelody() {
 				if (noteSounds != null) {
 					for (var i = 0; i < melody.length; i++) {
@@ -88,7 +95,19 @@
 			// we can call it 
 			gameCtrl.setMelodyFn(playMelody)
 
-			
+			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+			// CB function which is called every 1 second
+			// to update our timer DOM element to show to 
+			// the user how long they have been playing the
+			// game
+			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+			function updateTimer() {
+				timerDOM = p.select('#timer');
+
+				var elapsedTime = moment() - startTime;
+				timerDOM.html("Time: " + moment(elapsedTime).format("mm:ss"));
+			}
+
 			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 			// pre-load (syncronously) all our images - we 
 			// can be sure by the time we hit setup/draw
@@ -172,6 +191,8 @@
 			  setScoreTitle();
 			  setTargetNoteUI('TARGET NOTE: ', melody[noteToMatchIndex]);
 			  setSongMelodyTitle();
+			  startTime = moment();
+			  timerInterval = setInterval(updateTimer, 1000);
 			}
 
 			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -254,6 +275,9 @@
 				var targetNoteDOM = p.select('#target-note');
 				var i = p.floor(p.random(notePoolShuffled.length));
 
+				// if (misses >= chances ) {
+				// 	missedYourNote.play();
+				// }
 				// play wrong note sound
 				wrongNoteBuzz.play();
 				
@@ -263,7 +287,7 @@
 				setScoreTitle();
 				rounds++;
 
-				targetNoteDOM.attribute('class', 'wrong-note wrong-note animated shake col-xs-8');
+				targetNoteDOM.attribute('class', 'wrong-note wrong-note animated shake col-xs-6');
 				gameNotes.splice(noteIndex, 1, new Note(notePoolShuffled[i], 
 				      		   						    noteImages[notePoolShuffled[i]].image, 
 				      		   				 		    noteImages[notePoolShuffled[i]].srcFile,
@@ -280,7 +304,7 @@
 			function hitTargetNote(noteHit) {
 					// set target note info area green
 					var targetNoteDOM = p.select('#target-note');
-					targetNoteDOM.attribute('class', 'correct-note animated flash pulse col-xs-8');
+					targetNoteDOM.attribute('class', 'correct-note animated flash pulse col-xs-6');
 
 					// lets give the user some points!
 					score += correctNotePts;
@@ -302,9 +326,9 @@
 
 					// if this is the last note in the melody, game WON!!!
 					if (noteToMatchIndex === melody.length - 1) {
+						clearInterval(timerInterval);
 						gameOver = true;
 						gameCtrl.setGameOver(true);
-						// temp
 						var gameOverDOM = p.select('.game-over');
 						gameOverDOM.style('display', 'inline-block');
 						gameNotes.splice(0);
@@ -385,8 +409,8 @@
 				if (!gameOver) {
 					// set our TARGET NOTE: header area to indicate to the user the next target note
 					setTargetNoteUI('TARGET NOTE: ', melody[noteToMatchIndex])
-					// targetNoteDOM.attribute('class', 'default-target-note-msg col-xs-8 animated fadeIn');
-					targetNoteDOM.class('default-target-note-msg col-xs-8 animated fadeIn');
+					// targetNoteDOM.attribute('class', 'default-target-note-msg col-xs-6 animated fadeIn');
+					targetNoteDOM.class('default-target-note-msg col-xs-6 animated fadeIn');
 				}
 				else {
 					setTargetNoteUI('NICE JOB!!!', '')
@@ -396,7 +420,7 @@
 					// droneBackground.stop();				
 				}
 			});
-			
+
 
 		}	// end of return function(p)
 	}	// end of noteInvadersP5()

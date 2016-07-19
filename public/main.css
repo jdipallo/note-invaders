@@ -76,13 +76,6 @@ main {
     background-color: rgba(0,0,0,.4);
 }
 
-.logo {
-	/*width:  65%;
-	height: 65px;
-    margin-top: 10px;
-    margin-left: 20px;*/
-}
-
 .logo2 {
 	padding-top: 20px;
 	 -webkit-animation-duration: 4.0s;
@@ -149,8 +142,6 @@ main {
 
 .game-info-area {
 	font-size: 30px;
-	border-top-left-radius: 7px;
-	border-top-right-radius: 7px;
 }
 
 .treble-clef {
@@ -177,18 +168,22 @@ main {
 	/*height: 30px;*/
     padding: 0px;
 	background-color: rgba(0, 0, 0, .7);
-	text-align: center;
+	/*text-align: center;*/
 	width: 750px;
     color: white;
 }
 
 .instructions {
+	border-top-left-radius: 7px;
+	border-top-right-radius: 7px;
 	height: 28px;
 	padding: 0px;
+	padding-top: 1px;
 	background-color: rgba(0, 0, 0, .7);
 	text-align: center;
 	width: 750px;
-    color: #609FF9;
+    /*color: #609FF9;*/
+    color: #CECD3D;
     font-size: 14px;
 }
 .progress-so-far {
@@ -216,13 +211,13 @@ main {
 }
 
 #target-note {
-	padding-top: 12px;
-	padding-left: 50px;
+	padding-top: 9px;
+	padding-left: 40px;
 }
 
 #score-title {
 	font-size: 22px;
-    padding-top: 10px;
+    padding-top: 13px;
     color: green;
 }
 
@@ -248,6 +243,12 @@ main {
 }
 a.game-over-buttons:link {
 	text-decoration: none;
+}
+
+#timer {
+	font-size: 14px;
+	padding-top: 18px;
+	padding-left: 0px;
 }
 
 .piano {
