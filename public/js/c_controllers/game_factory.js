@@ -11,7 +11,6 @@
 			var songName 		= gameCtrl.selectedSongName;
 			var melodyName      = gameCtrl.selectedMelodyName;
 			var melody 			= gameCtrl.selectedMelody;
-			console.log("melody: ", melody);
 			var canvasWidth   	= 750;
 			var canvasHeight  	= 550;
 			var bottomOfDrawingArea;
@@ -331,8 +330,6 @@
 				rounds =0;
 
 				notePoolShuffled.shuffle();
-			  	console.log("notePoolShuffled =", notePoolShuffled);
-			  	console.log("melody[noteToMatchIndex]", melody[noteToMatchIndex])
 
 			  	// if the noteToMatchIndex melody note is not part of our shuffled notes, gameNotes, 
 			  	// (Note() objects are the ones painted/falling on the drawing canvas), take out
@@ -340,7 +337,6 @@
 			  	var melodyNoteInShuffle = false;
 			  	for (var i = 0; i < 5; i++) {
 			  		if (notePoolShuffled[i] === melody[noteToMatchIndex]) {
-			  			console.log("yes, we have a", melody[noteToMatchIndex], "in", notePoolShuffled)
 			  			melodyNoteInShuffle = true;
 			  			break;
 			  		}
@@ -348,9 +344,7 @@
 			  	// randomly splice out a note from gameNotes and insert our noteToMatchIndex
 			  	// from our melody - so the user can see/have the opportunity to shoot it!
 			  	if (!melodyNoteInShuffle) {
-			  		console.log("we dot NOT have a", melody[noteToMatchIndex], "in", notePoolShuffled)
 		  			var randomIndex = p.floor(p.random(0, 5))
-		  			console.log("inserting random: ", randomIndex)
 		  			var splicedNote = notePoolShuffled.splice(randomIndex, 1, melody[noteToMatchIndex])
 			  	}
 
@@ -402,6 +396,7 @@
 					// droneBackground.stop();				
 				}
 			});
+			
 
 		}	// end of return function(p)
 	}	// end of noteInvadersP5()

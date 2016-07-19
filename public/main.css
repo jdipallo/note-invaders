@@ -153,9 +153,15 @@ main {
 	border-top-right-radius: 7px;
 }
 
+.treble-clef {
+	padding:0px;
+	background: url("images/treble_clef.png") no-repeat no-repeat;
+	height: 65px;
+}
+
 .wrong-note {
 	color: red;
-	-webkit-animation-duration: 1.5s;
+	-webkit-animation-duration: 1.0s;
 }
 
 .correct-note {
@@ -210,11 +216,14 @@ main {
 }
 
 #target-note {
-	padding-left: 210px;
+	padding-top: 12px;
+	padding-left: 50px;
 }
 
 #score-title {
 	font-size: 22px;
+    padding-top: 10px;
+    color: green;
 }
 
 .game-over {
