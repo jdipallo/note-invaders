@@ -8,7 +8,7 @@ body {
 
 @font-face {
 	font-family: Chicago;
-	src: url(fonts/ChicagoFLF.ttf);
+	src: url("/fonts/ChicagoFLF.ttf");
 }
 
 main {
@@ -16,7 +16,7 @@ main {
 }
 
 .app-container {
-	background-image: url(images/space_notes.jpg);
+	background-image: url("/images/space_notes.jpg");
     background-size: cover;
     background-attachment: fixed;
     background-repeat: no-repeat;
@@ -39,10 +39,13 @@ main {
 	box-shadow: 7px 5px 5px #0E1146;
 }
 
+.nav a:active {
+  	border-radius: 5px;
+  	color: black;
+}
 .navbar-fixed-left {
  	width: 200px;
   	position: fixed;
-  	border-radius: 0;
   	height: 100%;
 }
 
@@ -83,6 +86,9 @@ main {
 	text-align: left;
 	padding-left: 20px;
 	padding-right: 20px;
+}
+
+.rules p {
 	font-family: sans-serif;
 }
 
@@ -156,7 +162,7 @@ main {
 
 .treble-clef {
 	padding:0px;
-	background: url("images/treble_clef.png") no-repeat no-repeat;
+	background: url("/images/treble_clef.png") no-repeat no-repeat;
 	height: 65px;
 }
 
