@@ -10,11 +10,12 @@
 		return function(p) {
 			var songName 		= gameCtrl.selectedSongName;
 			var melodyName      = gameCtrl.selectedMelodyName;
-			var melody = ['B3', 'E3', 'G3', 'D4'];
+			var melody 			= gameCtrl.selectedMelody;
+			console.log("melody: ", melody);
 			var canvasWidth   	= 750;
 			var canvasHeight  	= 550;
 			var bottomOfDrawingArea;
-			var progressNotesPosition = 32;
+			var progressNotesPosition = 40;
 
 			var guitarGun;
 			var bulletImg;
@@ -23,10 +24,8 @@
 
 			var noteToMatchIndex = 0;
 
-			// var notePoolShuffled = ['G2', 'A2', 'B2', 'C3', 'D3', 'E3','F3',
-			// 					  'G3', 'A3', 'B3', 'C4', 'D4', 'E4','F4',
-			// 					  'G4'];
-			var notePoolShuffled = ['D4', 'G3', 'G3', 'E3', 'F4'];
+			var notePoolShuffled = ['C3', 'D3', 'E3','F3','G3', 'A3', 'B3', 
+									'C4', 'D4', 'E4','F4','G4', 'A4', 'B4'];
 			
 			var gameNotes = [];
 			var bullets = [];
@@ -102,18 +101,39 @@
 				flyingVImg    = p.loadImage('../images/flying_v.png');
 				
 				// our notes on the staff
-				var qNe3 = '../images/quarter_note_e3.png';
-				var qNg3 = '../images/quarter_note_g3.png';
-				var qNb3 = '../images/quarter_note_b3.png';
-				var qNd4 = '../images/quarter_note_d4.png';
-				var qNf4 = '../images/quarter_note_f4.png';
+				var qNc3 = '../images/notes/C3q.png';
+				var qNd3 = '../images/notes/D3q.png';
+				var qNe3 = '../images/notes/E3q.png';
+				var qNf3 = '../images/notes/F3q.png';
+				var qNfs3 = '../images/notes/FSHARP3q.png';
+				var qNg3 = '../images/notes/G3q.png';
+				var qNa3 = '../images/notes/A3q.png';
+				var qNb3 = '../images/notes/B3q.png';
+				var qNc4 = '../images/notes/C4q.png';
+				var qNd4 = '../images/notes/D4q.png';
+				var qNe4 = '../images/notes/E4q.png';
+				var qNf4 = '../images/notes/F4q.png';
+				var qNg4 = '../images/notes/G4q.png';
+				var qNa4 = '../images/notes/A4q.png';
+				var qNb4 = '../images/notes/B4q.png';
 
-				noteImages = {'E3': { image: p.loadImage(qNe3), srcFile: qNe3},
-				                'G3': { image: p.loadImage(qNg3), srcFile: qNg3},
-				                'B3': { image: p.loadImage(qNb3), srcFile: qNb3},
-				                'D4': { image: p.loadImage(qNd4), srcFile: qNd4},
-				                'F4': { image: p.loadImage(qNf4), srcFile: qNf4}
-				             };
+
+				noteImages = { 'C3': {image: p.loadImage(qNc3), srcFile: qNc3},
+						   	   'D3': { image: p.loadImage(qNd3), srcFile: qNd3},
+							   'E3': { image: p.loadImage(qNe3), srcFile: qNe3},
+							   'F3': { image: p.loadImage(qNf3), srcFile: qNf3},
+							   'F#3': { image: p.loadImage(qNfs3), srcFile: qNfs3},
+				               'G3': { image: p.loadImage(qNg3), srcFile: qNg3},
+							   'A3': { image: p.loadImage(qNa3), srcFile: qNa3},
+				               'B3': { image: p.loadImage(qNb3), srcFile: qNb3},
+							   'C4': { image: p.loadImage(qNc4), srcFile: qNc4},
+				               'D4': { image: p.loadImage(qNd4), srcFile: qNd4},
+							   'E4': { image: p.loadImage(qNe4), srcFile: qNe4},
+				               'F4': { image: p.loadImage(qNf4), srcFile: qNf4},
+							   'G4': { image: p.loadImage(qNg4), srcFile: qNg4},
+							   'A4': { image: p.loadImage(qNa4), srcFile: qNa4},
+							   'B4': { image: p.loadImage(qNb4), srcFile: qNb4}
+							 };
 				guitarGun     	   = new GuitarGun(canvasWidth, canvasHeight, flyingVImg);
 
 				laser 	   		   = p.loadSound('../sounds/laser_5.mp3');
@@ -127,7 +147,7 @@
 							  'D3' : p.loadSound('../sounds/D3.mp3'),
 							  'E3' : p.loadSound('../sounds/E3.mp3'),
 							  'F3' : p.loadSound('../sounds/F3.mp3'),
-							  'FSHARP3' : p.loadSound('../sounds/FSHARP3.mp3'),
+							  'F#3' : p.loadSound('../sounds/FSHARP3.mp3'),
 							  'G3' : p.loadSound('../sounds/G3.mp3'),
 							  'A3' : p.loadSound('../sounds/A3.mp3'),
 							  'B3' : p.loadSound('../sounds/B3.mp3'),
@@ -311,6 +331,8 @@
 				rounds =0;
 
 				notePoolShuffled.shuffle();
+			  	console.log("notePoolShuffled =", notePoolShuffled);
+			  	console.log("melody[noteToMatchIndex]", melody[noteToMatchIndex])
 
 			  	// if the noteToMatchIndex melody note is not part of our shuffled notes, gameNotes, 
 			  	// (Note() objects are the ones painted/falling on the drawing canvas), take out
@@ -318,7 +340,7 @@
 			  	var melodyNoteInShuffle = false;
 			  	for (var i = 0; i < 5; i++) {
 			  		if (notePoolShuffled[i] === melody[noteToMatchIndex]) {
-			  			// console.log("yes, we have a", melody[noteToMatchIndex], "in", notePoolShuffled)
+			  			console.log("yes, we have a", melody[noteToMatchIndex], "in", notePoolShuffled)
 			  			melodyNoteInShuffle = true;
 			  			break;
 			  		}
@@ -326,23 +348,24 @@
 			  	// randomly splice out a note from gameNotes and insert our noteToMatchIndex
 			  	// from our melody - so the user can see/have the opportunity to shoot it!
 			  	if (!melodyNoteInShuffle) {
-			  		// console.log("we dot NOT have a", melody[noteToMatchIndex], "in", notePoolShuffled)
-		  			var randomIndex = p.floor(p.random(0, notePoolShuffled.length))
+			  		console.log("we dot NOT have a", melody[noteToMatchIndex], "in", notePoolShuffled)
+		  			var randomIndex = p.floor(p.random(0, 5))
+		  			console.log("inserting random: ", randomIndex)
 		  			var splicedNote = notePoolShuffled.splice(randomIndex, 1, melody[noteToMatchIndex])
 			  	}
 
 			  	var xPosition = 95;
 
 			  	for (var i = 0; i < 5; i++) {
-			   	 gameNotes.push(
-			    	  new Note(notePoolShuffled[i], 
-			      			   noteImages[notePoolShuffled[i]].image, 
-			      			   noteImages[notePoolShuffled[i]].srcFile,
-			      		 	  xPosition, 10, 
-			    	  		   .1 * p.random(1, 7),
-			      			   canvasWidth,
-			      			   canvasHeight,
-			      			   bottomOfDrawingArea));
+			   	 	gameNotes.push(
+			    	  	new Note(notePoolShuffled[i], 
+			      				   noteImages[notePoolShuffled[i]].image, 
+			      				   noteImages[notePoolShuffled[i]].srcFile,
+			      		 		  xPosition, 10, 
+			    	  			   .1 * p.random(1, 7),
+			      				   canvasWidth,
+			      				   canvasHeight,
+			      				   bottomOfDrawingArea));
 			    	xPosition += 140;
 			  	}
 			}

@@ -19,7 +19,7 @@ melody:['D3','E3', 'F#3', 'D3', 'D3', 'E3', 'F#3', 'D3', 'F#3', 'G3', 'A3', 'F#3
 
 db.songs.insert({name: "Itsy-Bitsy Spider", 
 melodies: [{name: "Main Melody", 
-melody:['G2','C3', 'C3', 'D3', 'E3', 'E3', 'E3', 'D3', 'C3', 'D3', 'E3', 'C3','E3','E3','F3','G3','G3','F3','E3','F3','G3','E3']
+melody:['C3', 'C3', 'C3', 'D3', 'E3', 'E3', 'E3', 'D3', 'C3', 'D3', 'E3', 'C3','E3','E3','F3','G3','G3','F3','E3','F3','G3','E3']
 }]})
 
 db.songs.insert({name: "Old McDonald Had A Farm", 

@@ -1,3 +1,9 @@
+<audio autoplay>
+  <!-- <source src="../sounds/spaceship_landing2.mp3" type="audio/mpeg"> -->
+  <source src="../sounds/spaceship_landing.mp3" type="audio/mpeg">
+	Your browser does not support the audio element.
+</audio>
+
 <div class="container home-page">
 	<div class="row">
 		<div class="col-xs-12">
@@ -35,7 +41,9 @@
 			  	<p5 sketch="audio-player"></p5>
 			</div> -->
 			<div class="col-xs-12">
-				<a><button class="btn btn-lg play-game-button" ng-click="homeCtrl.playGame()">Play!</button></a>
+				<a class="btn btn-lg play-game-button" ng-click="homeCtrl.playGame()">
+					<img class="img-responsive" src="images/arcade_button.png"/>
+				</a>
 			</div>
 	</div>
 

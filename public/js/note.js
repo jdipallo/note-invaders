@@ -2,8 +2,8 @@ function Note(name, img, imgFile, x, y, speedY, canvasWidth, canvasHeight, botto
   this.name         = name;
   this.img          = img;
   this.imgFile      = imgFile;
-  this.width        = 90;
-  this.height       = 99;
+  this.width        = 70;
+  this.height       = 95;
   this.x            = x;
   this.y            = y;
   this.speedY       = speedY;
