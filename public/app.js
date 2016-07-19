@@ -25,6 +25,11 @@
 				    		    gameCtrl.stopMusic();
 				  			  }
 			})
+			.state('rules', {
+				url: 		'/rules',
+				templateUrl: 'partials/rules.html'
+			})
+
 		$urlRouterProvider.otherwise('/')
 	}
 })()

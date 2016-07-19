@@ -29,10 +29,15 @@ melody:['C4','C4', 'C4', 'G3', 'A3', 'A3', 'G3', 'E4', 'E4', 'D4', 'D4', 'C4']
 
 db.songs.update({name: "Old McDonald Had A Farm"}, 
 	{$push: {melodies: {name: "Melody2", 
-	melody:['G3','G3', 'C4', 'C4', 'C4', 'G3', 'G3', 'C4', 'C4', 'C4','C4','C4','C4','C4','C4','C4','C4','C4','C4','C4','C4','C4']
+	melody:['G3','C4', 'C4', 'C4', 'G3', 'A3', 'A3', 'G3', 'E4', 'E4','D4','D4','C4']
 }}})
 
 db.songs.insert({name: "Happy Birthday To You", 
 melodies: [{name: "Main Melody", 
-melody:['G3','G3', 'A3', 'G3', 'C4', 'B3', 'G3', 'G3', 'A3', 'G3', 'D4', 'C4','G3','G3','G3','E4','C4','B3','A3','F4','F4','E4','C4','D4','C4']
+melody:['G3','G3', 'A3', 'G3', 'C4', 'B3', 'G3', 'G3', 'A3', 'G3', 'D4', 'C4']
 }]})
+
+db.songs.update({name: "Happy Birthday To You"}, 
+	{$push: {melodies: {name: "Melody2", 
+	melody:['G3','G3','G3','E4','C4','B3','A3','F4','F4','E4','C4','D4','C4']
+}}})

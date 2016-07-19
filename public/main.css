@@ -65,15 +65,25 @@ main {
   	justify-content: center;
 }
 
-.home-page {
+.home-page, .rules {
 	border-radius: 15px;
-	width: 60%;
+	width: 75%;
 	margin: auto;
-	height: 450px;
-	top: 96px;
+	height: 625px;
+	top: 60px;
     position: absolute;
     left: 20%;
     background-color: rgba(0,0,0,.4);
+    text-align: center;
+	color: white;
+}
+
+.home-page, .rules p {
+	font-size: 18px;
+	text-align: left;
+	padding-left: 20px;
+	padding-right: 20px;
+	font-family: sans-serif;
 }
 
 .logo2 {
@@ -84,10 +94,9 @@ main {
 }
 
 .about-this {
-	padding-top: 5%;
-	width: 80%;
+	padding-top: 3%;
+	width: 95%;
 	margin: auto;
-	color: white;
 	font-size: 16px;
     -webkit-animation-duration: 2.5s;
 	-webkit-animation-delay: 1s;
@@ -119,6 +128,7 @@ main {
     padding-left: 5%;
     color: white;
     font-size: 14px;
+    text-align: center;
 }
 
 .play-game-button {
@@ -257,5 +267,5 @@ a.game-over-buttons:link {
 	height: 153px;
 	left: 15px;
 	top: 397px;
-	background-color: yellow;
+	background-color: white;
 }
