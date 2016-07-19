@@ -39,10 +39,7 @@ main {
 	box-shadow: 7px 5px 5px #0E1146;
 }
 
-.nav a:active {
-  	border-radius: 5px;
-  	color: black;
-}
+
 .navbar-fixed-left {
  	width: 200px;
   	position: fixed;
@@ -88,8 +85,15 @@ main {
 	padding-right: 20px;
 }
 
-.rules p {
+.home-page, .rules h1, h2, h3 {
+	text-align: center;
+	font-family: Chicago, GillSans, Calibri, Trebuchet, sans-serif;
+	padding-bottom: 15px;
+}
+
+.rules, .about-this p {
 	font-family: sans-serif;
+	text-align: left;
 }
 
 .logo2 {
