@@ -23,6 +23,7 @@
 				onExit: 	  function () {
 				    		    gameCtrl.stopTimer();
 				    		    gameCtrl.stopMusic();
+				    		    gameCtrl.stopSpaceShipFlying();
 				  			  }
 			})
 			.state('rules', {

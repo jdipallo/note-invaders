@@ -20,6 +20,9 @@
 			var bulletImg;
 			var flyingVImg;
 			var noteImages;
+			var spaceShip;
+			var monkeyOnSaucerImg;
+			var saucerSpeed = 2;
 
 			var noteToMatchIndex = 0;
 
@@ -36,17 +39,23 @@
 			var theNoteGotByYaPts 	= -25;
 			var chances				= 5;
 			var rounds				= 0;
+			var hitSpaceShipMonkey  = 500;
 			var timer;
 			var timerDOM;
 			var timerCounter		= 0;
+			var elapsedTime         = 0;
 
 			// sound effects and piano samples
 			var laser;
 			var noteSounds;
 			var droneBackground;
 			var wrongNoteBuzz;
-			var crowdClapping;
-
+			var billTed;
+			var spaceShipFlying;
+			var loopingSpaceship = false;
+			var flyingRandom = 1000;
+			var monkeyScream;
+			var explosion;
 
 			// add a shuffle() method to the Array object to shuffle
 			// the array, gameNotes, to randomize the falling of them
@@ -104,8 +113,15 @@
 			function updateTimer() {
 				timerDOM = p.select('#timer');
 
-				var elapsedTime = moment() - startTime;
+			    elapsedTime = moment() - startTime;
 				timerDOM.html("Time: " + moment(elapsedTime).format("mm:ss"));
+
+				// lets random calculate if we should show our monkey on the saucer
+				var rand = p.floor(p.random(1, flyingRandom));
+				if (rand < 50) {
+					console.log("Setting showSpaceShip. rand = ", rand);
+					spaceShip.showSpaceShip = true;
+				}
 			}
 
 			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -114,9 +130,10 @@
 			// these resources are in fact loaded.
 			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 			p.preload = function() {
-				bg            = p.loadImage('../images/stars.png');
-				bulletImg     = p.loadImage('../images/bullet_color.png');
-				flyingVImg    = p.loadImage('../images/flying_v.png');
+				bg             = p.loadImage('../images/stars.png');
+				bulletImg      = p.loadImage('../images/bullet_color.png');
+				flyingVImg     = p.loadImage('../images/flying_v.png');
+				monkeyOnSaucerImg = p.loadImage('../images/monkey_on_saucer.png');
 				
 				// our notes on the staff
 				var qNc3 = '../images/notes/C3q.png';
@@ -153,10 +170,17 @@
 							   'B4': { image: p.loadImage(qNb4), srcFile: qNb4}
 							 };
 				guitarGun     	   = new GuitarGun(canvasWidth, canvasHeight, flyingVImg);
+				bottomOfDrawingArea  = canvasHeight - guitarGun.height;
+				spaceShip		   = new SpaceShip(p.random(110, bottomOfDrawingArea - 110), canvasWidth, canvasHeight, saucerSpeed, 
+												   monkeyOnSaucerImg, bottomOfDrawingArea);
+				// load spaceship sounds
+				spaceShipFlying = p.loadSound('../sounds/flying_saucer.mp3');
+			 	monkeyScream 	= p.loadSound('../sounds/monkey_scream.mp3');
+			 	explosion 		= p.loadSound('../sounds/explosion.mp3');
 
 				laser 	   		   = p.loadSound('../sounds/laser_5.mp3');
 				wrongNoteBuzz 	   = p.loadSound('../sounds/wrong_buzz.mp3');
-				crowdClapping	   = p.loadSound('../sounds/crowd_clapping.mp3');
+				billTed 		   = p.loadSound('../sounds/bill_ted.mp3');
 				droneBackground    = p.loadSound('../sounds/pulsating_beat_busy_drone_short.mp3')
 				noteSounds = {'G2' : p.loadSound('../sounds/G2.mp3'),
 							  'A2' : p.loadSound('../sounds/A2.mp3'),
@@ -175,9 +199,6 @@
 							  'F4' : p.loadSound('../sounds/F4.mp3'),
 							  'G4' : p.loadSound('../sounds/G4.mp3'),
 				};
-
-
-				bottomOfDrawingArea  = canvasHeight - guitarGun.height;
 			}
 
 			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -186,9 +207,9 @@
 		    p.setup = function() {
 			  p.createCanvas(canvasWidth, canvasHeight);
 			  
-			  droneBackground.setVolume(0.4);
 			  droneBackground.loop();
 			  gameCtrl.setMusic(droneBackground);
+			  gameCtrl.setSpaceShipFlying(spaceShipFlying);
 
 			  loadGameMelody();
 			  setScoreTitle();
@@ -196,7 +217,7 @@
 			  setSongMelodyTitle();
 			  
 			  startTime = moment();
-			  timerInterval = setInterval(updateTimer, 1000);
+			  timerInterval = setInterval(updateTimer, 1200);
 			  gameCtrl.setTimerInterval(timerInterval);
 			}
 
@@ -211,6 +232,20 @@
 				  // show our guitar gun
 				  guitarGun.show(p);
 
+				  // if our random generator (very simple) in updateTimer() say so,
+				  // then show our spaceShip with our monkey
+					if (spaceShip.showSpaceShip) {
+						if (!loopingSpaceship) {
+							loopingSpaceship = true;
+							spaceShipFlying.loop();
+						}
+						spaceShip.show(p);
+					 	spaceShip.move(p);
+				 	} else {
+				 		spaceShipFlying.stop();
+				 		loopingSpaceship = false;
+				 	}
+
 				   // show our bullets when we shoot with space bar
 				  for (var b = bullets.length - 1; b >= 0; b--) {
 				    bullets[b].show(p);
@@ -218,7 +253,7 @@
 				    
 				    // loop through our notes and see if any bullets hit one
 				    for (var j = gameNotes.length - 1; j >= 0; j--) {
-				    	if (bullets[b].hitNote(gameNotes[j])) {
+				    	if (bullets[b].hit(gameNotes[j])) {
 					        if (gameNotes[j].name === melody[noteToMatchIndex]) {
 					        	noteSounds[gameNotes[j].name].play();
 						        bullets[b].markForDelete();
@@ -230,7 +265,22 @@
 					        	hitWrongTargetNote(j)
 					        }
 				      	}
+				      	// if one of the bullets hit the spaceship.....
+				      	if (spaceShip.showSpaceShip) {
+				      		if (bullets[b].hit(spaceShip)) {
+				      			explosion.play();
+				      			monkeyScream.play();
+				      			// mark bullet for delete and remove the spaceShip
+				      			spaceShipFlying.stop();
+				      			spaceShip.hideSpaceShip(p);
+				      			bullets[b].markForDelete();
+				      			// add 500 points to our score!
+				      			score += hitSpaceShipMonkey;
+								setScoreTitle();
+				      		}
+				      	}
 				    }
+
 				    // if bullet(s) went off screen, lets mark it for deletion
 				    if (bullets[b].isOffScreen()) {
 				      bullets[b].markForDelete();
@@ -249,6 +299,8 @@
 				    gameNotes[i].show(p);
 				    gameNotes[i].move();
 				  }
+
+
 				  
 				  // if user has left or right arrow keys pressed down and holding, 
 				  // move the guitar gun
@@ -337,7 +389,7 @@
 						var gameOverDOM = p.select('.game-over');
 						gameOverDOM.style('display', 'inline-block');
 						gameNotes.splice(0);
-						crowdClapping.play();
+						billTed.play();
 						setTargetNoteUI("COMPLETED!", '')
 					}
 					else {
@@ -422,7 +474,8 @@
 					removeAllGraphics();
 
 					droneBackground.setVolume(0, 2.0);
-					droneBackground.stop();				
+					droneBackground.stop();
+					spaceShipFlying.stop();			
 				}
 			});
 

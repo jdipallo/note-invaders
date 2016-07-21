@@ -25,9 +25,9 @@ Bullet.prototype.isOffScreen = function() {
   }
 }
 
-Bullet.prototype.hitNote = function(note) {
-  if (((this.y - this.height / 2) + 10) <= (note.y + note.height / 2)) {
-    if (((this.x - this.width / 2) >= (note.x - note.width / 2)) && (this.x - (this.width / 2) <= (note.x + note.width / 2))) {
+Bullet.prototype.hit = function(thing) {
+  if (((this.y - this.height / 2) + 10) <= (thing.y + thing.height / 2)) {
+    if (((this.x - this.width / 2) >= (thing.x - thing.width / 2)) && (this.x - (this.width / 2) <= (thing.x + thing.width / 2))) {
       return true;
     }
   }

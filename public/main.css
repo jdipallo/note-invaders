@@ -139,6 +139,8 @@ main {
     color: white;
     font-size: 14px;
     text-align: center;
+    padding-left: 10%;
+    padding-right: 10%;
 }
 
 .play-game-button {

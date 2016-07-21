@@ -25,6 +25,12 @@
 		gameCtrl.stopMusic = function() {
 			gameCtrl.music.stop();
 		}
+		gameCtrl.setSpaceShipFlying = function(spaceShipFlying) {
+			gameCtrl.spaceShipFlying = spaceShipFlying;
+		}
+		gameCtrl.stopSpaceShipFlying = function() {
+			gameCtrl.spaceShipFlying.stop();
+		}
 		gameCtrl.setGameOver = function(gameOver) {
 			gameCtrl.gameOver = gameOver;
 		}
