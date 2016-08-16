@@ -12,7 +12,7 @@
 
 		homeCtrl.popMelodiesDD = function() {
 			homeCtrl.selectedMelody = homeCtrl.selectedSong.melodies[0];
-			console.log(homeCtrl.selectedMelody.melody)
+			// console.log(homeCtrl.selectedMelody.melody[0].note)
 		}
 
 		homeCtrl.getAllSongs = function() {
@@ -22,6 +22,7 @@
 				.then(function(returnData) {
 					homeCtrl.songs = returnData.data;
 					homeCtrl.selectedSong = homeCtrl.songs[0];
+					// console.log("In getAllSongs: ", homeCtrl.selectedSong)
 					homeCtrl.popMelodiesDD();
 				})
 		}
