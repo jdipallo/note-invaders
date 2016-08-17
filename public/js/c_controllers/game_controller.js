@@ -44,7 +44,7 @@
 			gameCtrl.playMelodyFn = playMelodyFn;
 		}
 		gameCtrl.playMelody = function() {
-			gameCtrl.playMelodyFn();
+			gameCtrl.playMelodyFn(0);
 		}
 		gameCtrl.replayGame = function() {
 			state.reload();

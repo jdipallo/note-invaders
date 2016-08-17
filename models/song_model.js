@@ -4,7 +4,10 @@ var SongSchema = mongoose.Schema({
 	name: { type: String, required: true, unique: true },
 	melodies: [{ 
 		name: String,
-		melody: [String]
+		melody: [{
+			note: String, 
+			beat: Number
+		}]
 	}]
 })
 
