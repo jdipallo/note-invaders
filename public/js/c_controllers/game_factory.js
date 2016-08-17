@@ -11,7 +11,7 @@
 			var songName 		= gameCtrl.selectedSongName;
 			var melodyName      = gameCtrl.selectedMelodyName;
 			var melody 			= gameCtrl.selectedMelody;
-			var tempo 			= 120;
+			var tempo 			= 100;
 			var canvasWidth   	= 750;
 			var canvasHeight  	= 550;
 			var bottomOfDrawingArea;
@@ -27,8 +27,11 @@
 
 			var noteToMatchIndex = 0;
 
-			var notePoolShuffled = ['C4','D4','E4','F4','F#4','G4','A4','B4', 
-									'C5','D5','E5','F5','G5','A5','B5'];
+			var notePoolShuffled = ['C4q', 'C4h','C4w','D4q','D4h','D4w','E4q','E4h','E4w',
+									'F4q','F4h','F4w','F#4q','F#4h','F#4w','G4s','G4de','G4q','G4h','G4w',
+									'A4q','A4h','A4w','B4q','B4h','B4w','C5s','C5de','C5q','C5h','C5w',
+									'D5q','D5h','D5w','E5q','E5h','E5w','F5s','F5de','F5q','F5h','F5w',
+									'G5q','G5h','G5w','A5q','A5h','A5w','B5q','B5h','B5w'];
 			
 			var gameNotes = [];
 			var bullets = [];
@@ -175,6 +178,9 @@
 				var qNFSHARP4 = '../images/notes/FSHARP4q.png';
 				var hNFSHARP4 = '../images/notes/FSHARP4h.png';
 				var wNFSHARP4 = '../images/notes/FSHARP4w.png';
+				var sNG4 = '../images/notes/G4s.png';
+				var deNG4 = '../images/notes/G4de.png';
+				var eNG4 = '../images/notes/G4e.png';
 				var qNG4 = '../images/notes/G4q.png';
 				var hNG4 = '../images/notes/G4h.png';
 				var wNG4 = '../images/notes/G4w.png';
@@ -184,6 +190,9 @@
 				var qNB4 = '../images/notes/B4q.png';
 				var hNB4 = '../images/notes/B4h.png';
 				var wNB4 = '../images/notes/B4w.png';
+				var sNC5 = '../images/notes/C5de.png';
+				var deNC5 = '../images/notes/C5s.png';
+				var eNC5 = '../images/notes/C5e.png';
 				var qNC5 = '../images/notes/C5q.png';
 				var hNC5 = '../images/notes/C5h.png';
 				var wNC5 = '../images/notes/C5w.png';
@@ -193,6 +202,8 @@
 				var qNE5 = '../images/notes/E5q.png';
 				var hNE5 = '../images/notes/E5h.png';
 				var wNE5 = '../images/notes/E5w.png';
+				var sNF5 = '../images/notes/F5s.png';
+				var deNF5 = '../images/notes/F5de.png';
 				var qNF5 = '../images/notes/F5q.png';
 				var hNF5 = '../images/notes/F5h.png';
 				var wNF5 = '../images/notes/F5w.png';
@@ -206,49 +217,57 @@
 				var hNB5 = '../images/notes/B5h.png';
 				var wNB5 = '../images/notes/B5w.png';
 
-				noteImages = { 'C4': {image: p.loadImage(qNC4), srcFile: qNC4},
+				noteImages = { 'C4q': {image: p.loadImage(qNC4), srcFile: qNC4},
 							   'C4h': {image: p.loadImage(hNC4), srcFile: hNC4},
 							   'C4w': {image: p.loadImage(wNC4), srcFile: wNC4},
-						   	   'D4': { image: p.loadImage(qND4), srcFile: qND4},
+						   	   'D4q': { image: p.loadImage(qND4), srcFile: qND4},
 						   	   'D4h': { image: p.loadImage(hND4), srcFile: hND4},
 						   	   'D4w': { image: p.loadImage(wND4), srcFile: wND4},
-							   'E4': { image: p.loadImage(qNE4), srcFile: qNE4},
+							   'E4q': { image: p.loadImage(qNE4), srcFile: qNE4},
 							   'E4h': { image: p.loadImage(hNE4), srcFile: hNE4},
 							   'E4w': { image: p.loadImage(wNE4), srcFile: wNE4},
-							   'F4': { image: p.loadImage(qNF4), srcFile: qNF4},
+							   'F4q': { image: p.loadImage(qNF4), srcFile: qNF4},
 							   'F4h': { image: p.loadImage(hNF4), srcFile: hNF4},
 							   'F4w': { image: p.loadImage(wNF4), srcFile: wNF4},
-							   'F#4': { image: p.loadImage(qNFSHARP4), srcFile: qNFSHARP4},
+							   'F#4q': { image: p.loadImage(qNFSHARP4), srcFile: qNFSHARP4},
 							   'F#4h': { image: p.loadImage(hNFSHARP4), srcFile: hNFSHARP4},
 							   'F#4w': { image: p.loadImage(wNFSHARP4), srcFile: wNFSHARP4},
-				               'G4': { image: p.loadImage(qNG4), srcFile: qNG4},
+				               'G4s': { image: p.loadImage(sNG4), srcFile: sNG4},
+				               'G4de': { image: p.loadImage(deNG4), srcFile: deNG4},
+				               'G4e': { image: p.loadImage(eNG4), srcFile: eNG4},
+				               'G4q': { image: p.loadImage(qNG4), srcFile: qNG4},
 							   'G4h': { image: p.loadImage(hNG4), srcFile: hNG4},
 							   'G4w': { image: p.loadImage(wNG4), srcFile: wNG4},
-							   'A4': { image: p.loadImage(qNA4), srcFile: qNA4},
+							   'A4q': { image: p.loadImage(qNA4), srcFile: qNA4},
 							   'A4h': { image: p.loadImage(hNA4), srcFile: hNA4},
 							   'A4w': { image: p.loadImage(wNA4), srcFile: wNA4},
-				               'B4': { image: p.loadImage(qNB4), srcFile: qNB4},
+				               'B4q': { image: p.loadImage(qNB4), srcFile: qNB4},
 				               'B4h': { image: p.loadImage(hNB4), srcFile: hNB4},
 				               'B4w': { image: p.loadImage(wNB4), srcFile: wNB4},
-							   'C5': { image: p.loadImage(qNC5), srcFile: qNC5},
+							   'C5s': { image: p.loadImage(sNC5), srcFile: sNC5},
+							   'C5de': { image: p.loadImage(deNC5), srcFile: deNC5},
+							   'C5e': { image: p.loadImage(eNC5), srcFile: eNC5},
+							   'C5q': { image: p.loadImage(qNC5), srcFile: qNC5},
 							   'C5h': { image: p.loadImage(hNC5), srcFile: hNC5},
 							   'C5w': { image: p.loadImage(wNC5), srcFile: wNC5},
-				               'D5': { image: p.loadImage(qND5), srcFile: qND5},
+				               'D5q': { image: p.loadImage(qND5), srcFile: qND5},
 				               'D5h': { image: p.loadImage(hND5), srcFile: hND5},
 				               'D5w': { image: p.loadImage(wND5), srcFile: wND5},
-							   'E5': { image: p.loadImage(qNE5), srcFile: qNE5},
+							   'E5q': { image: p.loadImage(qNE5), srcFile: qNE5},
 							   'E5h': { image: p.loadImage(hNE5), srcFile: hNE5},
 							   'E5w': { image: p.loadImage(wNE5), srcFile: wNE5},
-				               'F5': { image: p.loadImage(qNF5), srcFile: qNF5},
+				               'F5s': { image: p.loadImage(sNF5), srcFile: sNF5},
+				               'F5de': { image: p.loadImage(deNF5), srcFile: deNF5},
+				               'F5q': { image: p.loadImage(qNF5), srcFile: qNF5},
 				               'F5h': { image: p.loadImage(hNF5), srcFile: hNF5},
 				               'F5w': { image: p.loadImage(wNF5), srcFile: wNF5},
-							   'G5': { image: p.loadImage(qNG5), srcFile: qNG5},
+							   'G5q': { image: p.loadImage(qNG5), srcFile: qNG5},
 							   'G5h': { image: p.loadImage(hNG5), srcFile: hNG5},
 							   'G5w': { image: p.loadImage(wNG5), srcFile: wNG5},
-							   'A5': { image: p.loadImage(qNA5), srcFile: qNA5},
+							   'A5q': { image: p.loadImage(qNA5), srcFile: qNA5},
 							   'A5h': { image: p.loadImage(hNA5), srcFile: hNA5},
 							   'A5w': { image: p.loadImage(wNA5), srcFile: wNA5},
-							   'B5': { image: p.loadImage(qNB5), srcFile: qNB5},
+							   'B5q': { image: p.loadImage(qNB5), srcFile: qNB5},
 							   'B5h': { image: p.loadImage(hNB5), srcFile: hNB5},
 							   'B5w': { image: p.loadImage(wNB5), srcFile: wNB5}
 							 };
@@ -281,21 +300,21 @@
 				var A5PianoSound   = p.loadSound('../sounds/A5.mp3')
 				var B5PianoSound   = p.loadSound('../sounds/B5.mp3')
 				
-				noteSounds = {'C4'  : C4PianoSound,'C4h' : C4PianoSound,'C4w' : C4PianoSound,
-							  'D4'  : D4PianoSound,'D4h' : D4PianoSound,'D4w' : D4PianoSound,
-							  'E4'  : E4PianoSound,'E4h' : E4PianoSound,'E4w' : E4PianoSound,
-							  'F4'  : F4PianoSound,'F4h' : F4PianoSound,'F4w' : F4PianoSound,
-							  'F#4' : FSHARP4PianoSound,'F#4h' : FSHARP4PianoSound,'F#4w' : FSHARP4PianoSound,
-							  'G4'  : G4PianoSound,'G4h' : G4PianoSound,'G4w' : G4PianoSound,
-							  'A4'  : A4PianoSound, 'A4h': A4PianoSound,'A4w' : A4PianoSound,
-							  'B4'  : B4PianoSound,'B4h' : B4PianoSound,'B4w' : B4PianoSound,
-							  'C5'  : C5PianoSound,'C5h' : C5PianoSound,'C5w' : C5PianoSound,
-							  'D5'  : D5PianoSound,'D5h' : D5PianoSound,'D5w' : D5PianoSound,
-							  'E5'  : E5PianoSound,'E5h' : E5PianoSound,'E5w' : E5PianoSound,
-							  'F5'  : F5PianoSound,'F5h' : F5PianoSound,'F5w' : F5PianoSound,
-							  'G5'  : G5PianoSound,'G5h' : G5PianoSound,'G5w' : G5PianoSound,
-							  'A5'  : A5PianoSound,'A5h' : A5PianoSound,'A5w' : A5PianoSound,
-							  'B5'  : B5PianoSound,'B5h' : B5PianoSound,'B5w' : B5PianoSound
+				noteSounds = {'C4q'  : C4PianoSound,'C4h' : C4PianoSound,'C4w' : C4PianoSound,
+							  'D4q'  : D4PianoSound,'D4h' : D4PianoSound,'D4w' : D4PianoSound,
+							  'E4q'  : E4PianoSound,'E4h' : E4PianoSound,'E4w' : E4PianoSound,
+							  'F4q'  : F4PianoSound,'F4h' : F4PianoSound,'F4w' : F4PianoSound,
+							  'F#4q' : FSHARP4PianoSound,'F#4h' : FSHARP4PianoSound,'F#4w' : FSHARP4PianoSound,
+							  'G4s'  : G4PianoSound,'G4de'  : G4PianoSound,'G4e'  : G4PianoSound,'G4q' : G4PianoSound,'G4h' : G4PianoSound,'G4w': G4PianoSound,
+							  'A4q'  : A4PianoSound,'A4h' : A4PianoSound,'A4w' : A4PianoSound,
+							  'B4q'  : B4PianoSound,'B4h' : B4PianoSound,'B4w' : B4PianoSound,
+							  'C5s'  : C5PianoSound,'C5de'  : C5PianoSound,'C5e'  : C5PianoSound,'C5q' : C5PianoSound,'C5h' : C5PianoSound,'C5w': C5PianoSound,
+							  'D5q'  : D5PianoSound,'D5h' : D5PianoSound,'D5w' : D5PianoSound,
+							  'E5q'  : E5PianoSound,'E5h' : E5PianoSound,'E5w' : E5PianoSound,
+							  'F5s'  : F5PianoSound,'F5de'  : F5PianoSound,'F5q'  : F5PianoSound,'F5h' : F5PianoSound,'F5w' : F5PianoSound,
+							  'G5q'  : G5PianoSound,'G5h' : G5PianoSound,'G5w' : G5PianoSound,
+							  'A5q'  : A5PianoSound,'A5h' : A5PianoSound,'A5w' : A5PianoSound,
+							  'B5q'  : B5PianoSound,'B5h' : B5PianoSound,'B5w' : B5PianoSound
 							 };
 			}	// end of preload()
 
@@ -311,7 +330,7 @@
 
 			  loadGameMelody();
 			  setScoreTitle();
-			  setTargetNoteUI('TARGET NOTE: ', melody[noteToMatchIndex].note);
+			  setTargetNoteUI('TARGET NOTE: ', melody[noteToMatchIndex].note.slice(0,2));
 			  setSongMelodyTitle();
 			  
 			  startTime = moment();
@@ -564,7 +583,7 @@
 				
 				if (!gameOver) {
 					// set our TARGET NOTE: header area to indicate to the user the next target note
-					setTargetNoteUI('TARGET NOTE: ', melody[noteToMatchIndex].note)
+					setTargetNoteUI('TARGET NOTE: ', melody[noteToMatchIndex].note.slice(0,2))
 					// targetNoteDOM.attribute('class', 'default-target-note-msg col-xs-6 animated fadeIn');
 					targetNoteDOM.class('default-target-note-msg col-xs-6 animated fadeIn');
 				}
