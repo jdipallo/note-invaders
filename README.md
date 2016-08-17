@@ -1,17 +1,20 @@
 # Note Invaders
 
 ### Learning To Read Music One Galaxy At A Time...
-The objective of Note Invaders is for the budding musician to learn to sight read and develop their musical ear by hearing notes and melodies in a fun interactive way.
+The objective of Note Invaders is for the budding musician just starting out to learn to sight read and develop their musical ear by hearing notes and melodies in a fun interactive way.
 
 Like the classic game, Space Invaders, users shoot down the appropriate note from their chosen song and melody. Each correct note garnishes 100 points. Incorrect notes will cost you 100 points.
-You may see a random monkey on a spaceship. Shoot him down and you'll gain 500 points.
+
+You may see a random monkey with a guitar on a spaceship. Shoot him down and you'll gain 500 points.
 
 Upon completion of the game, users have the opportunity not only to see the melody on a staff, they can play it back for further study.
 
 ### Limitations
+Currently, Note Invaders is support by Chrome. It is not supported by Safari and untested with Firefox, Opera, etc..
+
 Version 1 of Note Invaders supports the note range: C4-C6. This range gives us many many songs for the user to start learning.
-Note Invaders will only play back quarter notes for a given melody. This obviously may result in a melody not accurately reflecting the original timing. However, the user will still get a very good
-idea how a melody goes. Version 2 of Note Invaders will support various beats.
+
+Version 2 of Note Invaders will support MIDI. On on screen piano graphic will accompany.
 
 ## Demo
 To demo Note Invaders, please visit:
